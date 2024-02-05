@@ -1,0 +1,51 @@
+% !TEX root = main.tex
+
+We began by setting up the matrix coefficients that represent the system of equations described by (8) and (9) in the Brunner, Holloway paper, reproduced below.
+
+The following represents the three-dimensional Boltzmann equation, for $0 \leq l < \infty$ and $-l \leq m \leq l$.
+and for $m \neq 0$:
+\begin{align*}
+	\frac{\partial}{\partial t}\psi_{l}^{m} &+ \frac{1}{2}\frac{\partial}{\partial x}
+	(
+	-C_{l-1}^{m-1}\psi_{l-1}^{m-1} + 
+	D_{l+1}^{m-1}\psi_{l+1}^{m-1} + 
+	E_{l-1}^{m+1}\psi_{l-1}^{m+1} + 
+	-F_{l+1}^{m+1}\psi_{l+1}^{m+1} 
+	)\\ &+ 
+	\frac{\partial}{\partial z}
+	(
+	A_{l-1}^{m}\psi_{l-1}^{m} + 
+	B_{l+1}^{m}\psi_{l+1}^{m}
+	) + \Sigma_t\psi^{m}_{l} = 0.
+\end{align*}
+
+For $m = 0$:
+\begin{align*}
+	\frac{\partial}{\partial t}\psi_{l}^0 + 
+	\frac{\partial}{\partial x}
+	(
+	E_{l-1}^{1}\psi_{l-1}^{1} + 
+	-F_{l+1}^{1}\psi_{l+1}^{1} 
+	) +  
+	\frac{\partial}{\partial z}
+	(
+	A_{l-1}^{0}\psi_{l-1}^{0} + 
+	B_{l+1}^{0}\psi_{l+1}^{0}
+	) + \Sigma_t\psi^0_{l} = \Sigma_s\psi^0_0\delta_{l0}
+\end{align*}
+
+(The specific values for the coefficients $A_l^m$, $B_l^m$, etc. can be found in the paper by Brunner and Holloway)
+
+Additionally, the identity $\bar{\psi_l^m} = (-1)^m\psi_l^{-m}$ takes advantage of each $\psi$ being real to remove terms with negative $m$.
+Thus $m$ goes from $0$ to $l$ instead of $-l$ to $l$.
+Under the $P_N$ approximation, it is assumed that $\psi_l^m = 0$ whenever $l > m$, $l < 0$, or $l > m$.
+This results in the system of equations represented by the matrices produced by $\texttt{pn\_approx.py}$, which produces the matrices $A, B$, and $C$ in the following system:
+\begin{align*}
+	\vec{q}_{,t} + \mat{A}\,\vec{q}_{,x} + \mat{B}\,\vec{q}_{,z} = \mat{C}\,\vec{q}
+\end{align*}
+Unlike the paper by Brunner and Holloway, the functions $\psi_l^m$ are grouped by $l$ rather than $m$.
+As a result, the following mapping from $(m, l)$ to equation number $p$ is used:
+\begin{align*}
+	p = \frac{l(l+1)}{2} + 1 + m
+\end{align*}
+This mapping causes the exact matrices produced in the paper by Brunner and Holloway and our own to be distinct, but only as permutations of one another.

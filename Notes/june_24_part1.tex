@@ -1,0 +1,9 @@
+% !TEX root = main.tex
+
+%optimized R matrix creation
+
+Over the weekend, we ran our code with 100 Ns and N$\omega$ points. It took 15 hours to create the matrix. We determined that the function at the end had a decent number of mistakes in it, so we also know that we need to change our fill ratio.\\
+
+This morning we tried to find a way to make our code run faster. We were able to figure out that if we just call on the matrix during the BiCGSTAB method, that we would not have to create the matrix, thus saving time. Over lunch we ran the code in that manner with 50 Ns and N$\omega$ points. We stopped the code after about 1 hour and 15 minutes because we realized that it would probably save time if we created the matrix once, since we would be applying this matrix many times with a lot of iterations. \\
+
+At this point, we had to try to find a way to speed up making the matrix, pre-conditioner, and inverse matrix so that it wouldn't take 15 hours to compute. We started with taking the summation of items and simplifying it since we know that the function values will mostly be zero, except where we set it to be 1. We also used this logic to simplify our code, as we didn't need four variables for s, $\omega$, p, and f. When we finished coding this, we compared our matrix, with a matrix that we know to be correct, and they didn't match. We went through all of our logic to try to find an issue and we fixed some things, but our matrices still weren't the same. At the end of the day, we figured out that our matrices were different, but the radon transform of the function was the same. 

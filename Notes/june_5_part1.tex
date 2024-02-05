@@ -1,0 +1,36 @@
+% !TEX root = main.tex
+
+We want to find a higher order implicit method. So, for the moment, imaging that we are solving an ODE in time. 
+
+\begin{align*}
+\vec{q}' = \mat{A}\,\vec{q}
+\end{align*}
+
+A solution to this is the Taylor Series in time. To start, we will look at the explicit method.
+
+
+\begin{align*}
+\vec{q}(t + \Delta t) = \vec{q}(t) + \Delta t \vec{q}_{,t}(t) + &\frac{1}{2}\Delta t^2 \vec{q}_{,t,t}(t) + \frac{1}{6}\Delta t^3 \vec{q}_{,t,t,t}(t) + \dots \\
+\vec{q}_{,t} &= \mat{A}\,\vec{q}  \\
+\vec{q}_{,t,t} = \mat{A}\,&\vec{q}_{,t} = \mat{A}^2\,\vec{q} \\
+\vdots& \\
+\vec{q}_{,t,t,...,t} &= \mat{A}^n\,\vec{q}  \\
+\therefore \vec{Q}^{n+1} = (\mat{I} + \Delta t \mat{A} + &\frac{1}{2} \Delta t^2\mat{A}^2 + \frac{1}{6}\Delta t^3 \mat{A}^3 + \dots)\vec{Q}^n
+\end{align*}
+
+The first two terms of the bottom equation make up the forward Euler method discussed earlier. These two terms are first order accurate, $O(\Delta t)$. The first three terms are second order accurate, $O(\Delta t^2)$. The first four terms are third order accurate, $O(\Delta t^3)$, and so on. These are all explicit methods. If we were to use this method, we would end up having to restrict our time step to a small window.  \\
+
+Now, we will look at the implicit method.
+
+\begin{align*}
+\vec{q}(t) = \vec{q}(t + \Delta t) - \Delta t \vec{q}_{,t}(t + \Delta t) + &\frac{1}{2} \Delta t^2 \vec{Q}_{,t,t}(t + \Delta t) - \frac{1}{6} \Delta t^3 \vec{q}_{,t,t,t}(t + \Delta t) + \dots \\
+\vec{q}_{,t} &= \mat{A}\,\vec{q} \\
+\vec{q}_{,t,t} = \mat{A}\,&\vec{q}_{,t} = \mat{A}^2\,\vec{q} \\
+\vdots& \\
+\vec{q}_{,t,t,...,t} &= \mat{A}^n\,\vec{q} \\
+%\text{The three equations above are still true from the explicit method} \\
+\vec{q}(t) = (1 - \Delta t \mat{A} + \frac{1}{2} \Delta t^2& \mat{A}^2 - \frac{1}{6} \Delta t^3 \mat{A}^3 + \dots) \vec{q}(t + \Delta t) \\
+\vec{Q}^{n+1} = [\mat{I} - \Delta t \mat{A} + &\frac{1}{2} \Delta t^2 \mat{A}^2 - \frac{1}{6} \Delta t^3 \mat{A}^3 + \dots]^{-1} \vec{Q}^n
+\end{align*}
+
+The first two terms of the bottom equation make up the backwards Euler method that was also discussed earlier. Like with the explicit method, the first two terms are first order accurate, the first three are second order accurate, and so on. In order to implement this, we don't need to change much of our code, we just need to change our formula.

@@ -1,0 +1,24 @@
+% !TEX root = main.tex
+
+\section*{Using other iterative methods}
+We experimented with using other iterative methods such as conjugate gradient (CG) and a modified version of generalized conjugate residual with inner orthogonalization and outer truncation (GCROT), GCROT$(m, k)$.
+These iterative methods, as in the case with BiCGSTAB, are available in \verb|scipy.sparse.linalg|.
+We wanted to see if these two iterative methods offered any advantages over BiCGSTAB (fewer iterations, faster iterations, faster convergence towards minimum residual, etc.)
+\par 
+To reiterate, the system we are trying to solve is 
+\begin{align*}
+	\mat{R} \, \vec{f} & = \vec{\hat{f}}
+\end{align*}
+where $\mat{R}$ is the Radon transform matrix that we computed column by column and $\vec{\hat{f}}$ is the vector containing the Radon transform of $f$ on the circular mesh.
+CG only works if we are solving a system whose matrix is symmetric, positive definite (SPD), so we attempted to solve the modified system
+\begin{align*}
+	\mat{R}^{T} \, \mat{R} \, \vec{f} & = \mat{R}^{T} \, \vec{\hat{f}}
+\end{align*}
+$\mat{R}^{T} \, \mat{R}$ is symmetric by construction and positive definite despite $\mat{R}$ being ill-conditioned.
+When we attempted to recover $\vec{f}$ from this system without preconditioning, CG failed. 
+This was expected because we effectively squared the condition number of our original problem which was already large to begin with.
+We did not attempt to solve this SPD problem with preconditioning.
+\par 
+GCROT$(m, k)$ showed some promise as well, and we did not have to construct a modified system to use it.
+We used the default parameters $m, k = 20$, and we noticed that with poor pre-conditioners, GCROT$(m, k)$ performed better than BiCGSTAB (fewer iterations to converge to a better solution), but this was not the case when we increased the quality of the pre-conditioner by simultaneously decreasing the drop tolerance and increasing the fill-in factor.
+Because of this, we decided to keep using BiCGSTAB.

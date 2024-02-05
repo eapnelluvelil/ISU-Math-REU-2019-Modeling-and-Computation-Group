@@ -1,0 +1,35 @@
+% !TEX root = main.tex
+
+%new equation for advection
+
+In an attempt to fix the wiggles that were evident on our plots, we tried a new advection equation. The equations that we were using were A-stable. Dr. Rossmanith gave us the TR-BDF2 equation which is L-stable. We start out with the equations:
+
+\begin{align*}
+U^* = U^n + \frac{\Delta t}{4}(DU^n + DU^*) \\
+3U^{n+1} - 4U^* + U^n = \Delta t DU^{n+1}
+\end{align*}
+
+Where:
+
+\begin{align*}
+u' = \lambda u , \quad \lambda \in \C
+\end{align*}
+
+Then:
+
+\begin{align*}
+U^{n+1} = g(z)U^n, \quad z = \Delta t \lambda \in \C
+\end{align*}
+
+When an equation is A-stable, $|g(z)| \leq 1$. With this, the entire left half of the real/imaginary plane is stable, meaning the negative real values are stable. If there are values where the real component is zero, then we are on the boundary between stable and unstable. This could be causing the wiggles that we have observed. When an equation is L-stable, it is A-stable and $|g(z)| \to 0 \text{ as } z \to \infty$. \\
+
+Our backwards Euler method is $1^{st}$ order A-stable method for advection. \\
+
+Now, we need to code the earlier equations so that we can use them for our advection.
+
+\begin{align*}
+\left(I - \frac{\Delta t}{4}D\right)U^* = \left(I + \frac{\Delta t}{4}D\right)U^n \\
+(3I - \Delta t D)U^{n+1} = 4U^* - U^n
+\end{align*}
+
+This has two stages. First, we solve for $U^*$, then we solve for $U^{n+1}$.

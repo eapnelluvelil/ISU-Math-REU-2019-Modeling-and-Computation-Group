@@ -1,0 +1,44 @@
+% !TEX root = main.tex
+
+\section*{Switching from BiCGSTAB to LU factorization}
+Dr. Rossmanith told us that we should explore using the direct LU decomposition to solve the inverse Radon transform.
+Up until this point, we had been using BiCGSTAB and preconditioning our system with the incomplete LU (ILU) decomposition of $\mat{R}$ (computed using SciPy's wrapper around the SuperLU library) to improve the conditioning of the system
+\begin{align*}
+	\mat{R} \, \vec{f} & = \vec{\hat{f}}
+\end{align*}
+However, we ran into difficulties when computing the ILU of $\mat{R}$ as a pre-conditioner.
+SciPy's wrapper around the SuperLU library primarily allows us to modify two parameters when computing the ILU of a matrix: the drop tolerance (if entries in ILU fall below this tolerance, they are set to zero) and fill ratio (the ratio of the number of non-zero entries in the ILU to the number of non-zero entries in the original matrix).
+The default drop tolerance and fill ratio are $10^{-4}$ and $10$, respectively.
+We can enable expert options, but we are not sure how to go about picking which expert flags to use.
+\par 
+If we use a low drop tolerance and a high fill factor, we are able to compute a good approximation to the inverse of $\mat{R}$. 
+This is very expensive in terms of memory.
+If we use a higher drop tolerance and a low fill factor, the conditioning of the modified system does not improve much, and in fact, gets worse in all the rudimentary numerical tests we performed.
+\par 
+To get around this issue, we scrapped the idea of using an iterative method to solve the original system and went with taking the LU decomposition of $\mat{R}$.
+Both SciPy and SciPy's wrapper around the SuperLU library allow us to calculate the LU decomposition of matrices, but the SuperLU library is better suited for computing the LU decompositions of large, sparse matrices (in this context, sparse refers to the expression $1 - \frac{nnz(\mat{A})}{M \times N}$ being greater than $\frac{1}{2}$, where $\mat{A}$ is an $M \times N$ matrix and $nnz(\mat{A})$ refers to the number of non-zero elements in $\mat{A}$).
+\par
+Because of this, we went with SciPy's LU decomposition.
+Using the LU decomposition is very straightforward, and SciPy's functions make it easy to solve large linear systems once we have computed the LU decomposition of the corresponding matrix.
+\par 
+We ran some basic convergence tests to see how well the LU decomposition of $\mat{R}$ performed in solving the system 
+\begin{align*}
+	\mat{R} \, \vec{f} & = \vec{\hat{f}}
+\end{align*}
+Not surprisingly, the LU decomposition performed better than the iterative methods, but we did notice the relative $2$-norms of the residual and error got larger and larger as we increased the problem size i.e. if we increased  $N_{s}$ and $N_{\omega}$ and kept $N_{q}$ at $75$.
+This is tied to the conditioning of $\mat{R}$ growing incredibly fast as we increase the problem size.
+\par 
+To potentially alleviate issues caused by $\mat{R}$ condition number growing rapidly, Dr. Rossmanith proposed solving the modified system
+\begin{align*}
+	\Big( \mat{R^{T} R} + \mu \mat{I} \Big) \, \vec{f} & = \mat{R^{T}} \, \vec{\hat{f}} + \vec{f}
+\end{align*} 
+where $\mu > \lambda_{min}$ and $\lambda_{min}$ is the smallest eigenvalue of $\mat{R^{T} R}$.
+This is a modified form of the normal equations, but this modified system has the additional property that the smallest eigenvalue of $\Big( \mat{R^{T}R} + \mu \mat{I} \Big)$ (in theory) is bounded below by $\mu$.
+This means the conditioning of the modified system is better in exact arithmetic, but no guarantees can be made while performing floating point calculations.
+\par 
+Dr. Rossmanith proposed that we can solve the above system iteratively in the following manner:
+\begin{align*}
+	\vec{f}^{0} & = \vec{0} \\
+	\Big( \mat{R^{T} R} + \mu \mat{I} \Big) \, \vec{f}^{k} & = \mat{R^{T}} \, \vec{\hat{f}} + \vec{f}^{(k-1)}, \quad k \geq 1
+\end{align*}
+This iteration makes sense because if $\vec{f}^{*}$ is the true solution to $\mat{R} \, \vec{f} = \vec{\hat{f}}$, then it would also solve the modified system (by simple inspection).

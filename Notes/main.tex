@@ -1,0 +1,270 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathrsfs}
+\usepackage{manfnt}
+\usepackage{bbm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{float}
+%%% This is for drawing with tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,chains,fit,shapes,calc,arrows,patterns,cd,knots,hobby} 
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows, petri, topaths}
+\usepackage{tkz-berge}
+\usepackage[all]{xy}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{float}
+\usepackage{fancyhdr}
+
+% Additional packages (included by Eappen)
+\usepackage{fullpage}	% To use more of the page
+\usepackage{times}		% To use Times New Roman instead of Computer Modern
+\usepackage{mathtools}
+\usepackage{epstopdf}
+\usepackage{subcaption}
+
+% To create new paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+% To do a raised plus/minus symbol
+\newcommand{\rpm}{\raisebox{.2ex}{$\scriptstyle\pm$}}
+
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+% For graphics / images
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{Graphics/}}
+
+%augmented matrix:
+\newenvironment{amatrix}[1]{%
+	\left(\begin{array}{@{}*{#1}{c}|c@{}}
+	}{%
+	\end{array}\right)
+}
+
+%Math Shortcuts
+\def \U {{\cal {U}}} 
+\def \P {{\cal {P}}}
+\def \Z {\mathbb{Z}}
+\def \N {\mathbb{N}}
+\def \Q {\mathbb{Q}}
+\def \R {\mathbb{R}}
+\def \C {\mathbb{C}}
+\def \F {\mathbb{F}}
+\def \ms {\medskip}
+\def \ss {\smallskip}
+\def \no {\noindent}
+\def \vl {\overline}
+\def \ub {\underline}
+\def \cl {\centerline}
+\def \dl {\displaystyle}
+\def \lra {\longrightarrow}
+\def \thus {{.\raise 4pt\hbox{.}.\;}}
+\def \ctrdct {\rightarrow \!\leftarrow}
+\def \div {{\bf {~div~}}}
+\def\notdiv{\not|\;}
+\font\Bigbf = cmr10 scaled\magstep 2
+\font\sm = cmr10 scaled 900
+\font\headerfont = cmti10 scaled 600
+\def\LaTeX{{\rm L\kern-.36em\raise.3ex\hbox{\sc a}\kern-.15em\TeX}}
+
+\def\doblue #1 {\color{blue}}
+%%%% Shortcut Macros
+\newcommand{\setcomplement}[1]{{#1}^{\mathsf{c}}}
+\newcommand{\fl}{\flushright}
+
+\newcommand{\bunderline}[1]{\underline{#1}}
+\renewcommand{\vec}[1]{{\bunderline{#1}}}
+\newcommand{\vect}[1]{{\bunderline{#1}}} 
+\newcommand{\mat}[1]{{\bunderline{\bunderline{#1}}}}
+
+
+%%% Problem environment
+% \newcounter{ProblemNumber}
+% \setcounter{ProblemNumber}{0}
+% \newenvironment{problem}[1][Problem]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep \stepcounter{ProblemNumber}{\bfseries \arabic{ProblemNumber}.}]}{\end{trivlist}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\solution}{\textit{Solution:}}
+% Make proof environment look like amslatex's
+%\renewcommand{\qedsymbol}{\square}% PLEASE NOTE: this is in the AMS symbols font.
+%\makeatletter
+%\renewenvironment{proof}[1][\proofname]{\par
+%  \pushQED{$\qedsymbol$}%
+%  \normalfont \topsep6\p@\@plus6\p@\relax
+%  \list{}{\leftmargin=1.25mm\itemindent=20pt\linewidth=0.975\textwidth%
+%  \item[\hskip\labelsep
+%        \bfseries
+%   #1\@addpunct{.}]\ignorespaces}
+%}{%
+%  \popQED\endlist\@endpefalse
+%}
+
+
+
+\begin{document}
+	
+	%Good resources for looking up how to do stuff:
+	%Binary operators: http://www.access2science.com/latex/Binary.html
+	%General help: http://en.wikibooks.org/wiki/LaTeX/Mathematics
+	%Or just google stuff
+	
+	\begin{section}{June 3}
+		\input{june_6_part1.tex}
+		\input{june_6_part2.tex}
+		\input{june_6_part3.tex}
+	\end{section}
+	
+	\begin{section}{June 4}
+		\input{june_4_part1.tex}
+		\input{june_4_part2.tex}
+		\input{june_4_part3.tex}
+	\end{section}
+	
+	\begin{section}{June 5}
+		\input{june_5_part1.tex}
+		\input{june_5_part2.tex}
+		\input{june_5_part3.tex}		
+	\end{section}
+	
+	\begin{section}{June 6}
+		\input{real_june_6_part1.tex}
+		\input{real_june_6_part2.tex}
+		\input{real_june_6_part3.tex}		
+	\end{section}
+
+	\begin{section}{June 7}
+		\input{june_7_part1.tex}
+		\input{june_7_part2.tex}
+		\input{june_7_part3.tex}		
+	\end{section}
+	
+	\begin{section}{June 10}
+		\input{june_10_part1.tex}
+		\input{june_10_part2.tex}
+	\end{section}
+	
+	\begin{section}{June 11}
+		\input{june_11_part1.tex}
+		\input{june_11_part2.tex}
+		\input{june_11_part3.tex}		
+	\end{section}
+
+	\begin{section}{June 12}
+		\input{june_12_part1.tex}
+	\end{section}
+	
+	\begin{section}{June 13}
+		\input{june_13_part1.tex}
+		\input{june_13_part2.tex}
+		\input{june_13_part3.tex}
+	\end{section}
+
+	\begin{section}{June 14}
+		\input{june_14_part1.tex}
+		\input{june_14_part2.tex}
+		\input{june_14_part3.tex}
+	\end{section}
+	
+	\begin{section}{June 17}
+		\input{june_17_part1.tex}
+		\input{june_17_part2.tex}
+		\input{june_17_part3.tex}
+	\end{section}
+	
+	\begin{section}{June 18}
+		\input{june_18_part1.tex}
+	\end{section}
+	
+	\begin{section}{June 20}
+		\input{june_1920_part1.tex}
+		\input{june_20_part2.tex}
+	\end{section}
+	
+	\begin{section}{June 21}
+		\input{june_21_part1.tex}
+	\end{section}
+	
+	\begin{section}{June 24}
+		\input{june_24_part1.tex}
+		\input{june_24_part2.tex}
+		\input{june_24_part3.tex}
+	\end{section}
+	
+	\begin{section}{June 25}
+		\input{june_25_part1.tex}
+		\input{june_25_part2.tex}
+		\input{june_25_part3.tex}
+	\end{section}	
+
+	\begin{section}{June 26}
+		\input{june_26_part1.tex}
+		\input{june_26_part2.tex}
+		\input{june_26_part3.tex}
+	\end{section}
+
+	\begin{section}{June 27}
+		\input{june_27_part1.tex}
+		\input{june_27_part2.tex}
+		\input{june_27_part3.tex}
+	\end{section}
+
+	\begin{section}{June 28}
+		\input{june_28_part1.tex}
+		\input{june_28_part2.tex}
+		\input{june_28_part3.tex}
+	\end{section}
+
+	\begin{section}{July 1}
+		\input{july_1_part1.tex}
+		\input{july_1_part2.tex}
+		\input{july_1_part3.tex}
+	\end{section}
+	
+	\begin{section}{July 2}
+		\input{july_2_part1.tex}
+		\input{july_2_part2.tex}
+		\input{july_2_part3.tex}
+	\end{section}
+	
+	\begin{section}{July 3}
+		\input{july_3_part1.tex}
+		\input{july_3_part2.tex}
+		\input{july_3_part3.tex}
+	\end{section}
+
+	\begin{section}{July 8}
+		\input{july_8_part1.tex}
+		\input{july_8_part2.tex}
+		\input{july_8_part3.tex}
+	\end{section}
+	
+	\begin{section}{July 9}
+		\input{july_9_part1.tex}
+		\input{july_9_part2.tex}
+		\input{july_9_part3.tex}
+	\end{section}
+
+	\begin{section}{July 10}
+		\input{july_10_part1.tex}
+	\end{section}
+	
+	\begin{section}{July 12}
+		\input{july_12_part1.tex}
+		\input{july_12_part2.tex}
+		\input{july_12_part3.tex}
+	\end{section}
+\end{document}

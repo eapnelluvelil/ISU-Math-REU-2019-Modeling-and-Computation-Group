@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{mathrsfs}
+\usepackage{manfnt}
+\usepackage{bbm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{float}
+%%% This is for drawing with tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,chains,fit,shapes,calc,arrows,patterns,cd,knots,hobby} 
+\usepackage{tkz-graph}
+\usetikzlibrary{arrows, petri, topaths}
+\usepackage{tkz-berge}
+\usepackage[all]{xy}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{float}
+\usepackage{fancyhdr}
+
+% Additional packages (included by Eappen)
+\usepackage{fullpage}	% To use more of the page
+\usepackage{times}		% To use Times New Roman instead of Computer Modern
+\usepackage{mathtools}
+\usepackage{epstopdf}
+\usepackage{subcaption}
+
+% To create new paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+
+% Reals symbol
+\newcommand{\reals}{\mathbb R}
+
+% To do a raised plus/minus symbol
+\newcommand{\rpm}{\raisebox{.2ex}{$\scriptstyle\pm$}}
+
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
+
+% For graphics / images
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{Graphics/}}
+
+%augmented matrix:
+\newenvironment{amatrix}[1]{%
+	\left(\begin{array}{@{}*{#1}{c}|c@{}}
+	}{%
+	\end{array}\right)
+}
+
+%Math Shortcuts
+\def \U {{\cal {U}}} 
+\def \P {{\cal {P}}}
+\def \Z {\mathbb{Z}}
+\def \N {\mathbb{N}}
+\def \Q {\mathbb{Q}}
+\def \R {\mathbb{R}}
+\def \C {\mathbb{C}}
+\def \F {\mathbb{F}}
+\def \ms {\medskip}
+\def \ss {\smallskip}
+\def \no {\noindent}
+\def \vl {\overline}
+\def \ub {\underline}
+\def \cl {\centerline}
+\def \dl {\displaystyle}
+\def \lra {\longrightarrow}
+\def \thus {{.\raise 4pt\hbox{.}.\;}}
+\def \ctrdct {\rightarrow \!\leftarrow}
+\def \div {{\bf {~div~}}}
+\def\notdiv{\not|\;}
+\font\Bigbf = cmr10 scaled\magstep 2
+\font\sm = cmr10 scaled 900
+\font\headerfont = cmti10 scaled 600
+\def\LaTeX{{\rm L\kern-.36em\raise.3ex\hbox{\sc a}\kern-.15em\TeX}}
+
+\def\doblue #1 {\color{blue}}
+%%%% Shortcut Macros
+\newcommand{\setcomplement}[1]{{#1}^{\mathsf{c}}}
+\newcommand{\fl}{\flushright}
+
+\newcommand{\bunderline}[1]{\underline{#1}}
+\renewcommand{\vec}[1]{{\bunderline{#1}}}
+\newcommand{\vect}[1]{{\bunderline{#1}}} 
+\newcommand{\mat}[1]{{\bunderline{\bunderline{#1}}}}
+
+
+%%% Problem environment
+% \newcounter{ProblemNumber}
+% \setcounter{ProblemNumber}{0}
+% \newenvironment{problem}[1][Problem]{\begin{trivlist}
+% \item[\hskip \labelsep {\bfseries #1}\hskip \labelsep \stepcounter{ProblemNumber}{\bfseries \arabic{ProblemNumber}.}]}{\end{trivlist}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+		\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+%If you want to title your bold things something different just make another thing exactly like this but replace "problem" with the name of the thing you want, like theorem or lemma or whatever
+\newtheorem{theorem}{Theorem}
+
+\newcommand{\solution}{\textit{Solution:}}
+% Make proof environment look like amslatex's
+%\renewcommand{\qedsymbol}{\square}% PLEASE NOTE: this is in the AMS symbols font.
+%\makeatletter
+%\renewenvironment{proof}[1][\proofname]{\par
+%  \pushQED{$\qedsymbol$}%
+%  \normalfont \topsep6\p@\@plus6\p@\relax
+%  \list{}{\leftmargin=1.25mm\itemindent=20pt\linewidth=0.975\textwidth%
+%  \item[\hskip\labelsep
+%        \bfseries
+%   #1\@addpunct{.}]\ignorespaces}
+%}{%
+%  \popQED\endlist\@endpefalse
+%}
+
+
+
+\begin{document}
+\title{IMEX Schemes for Radiative Transfer}
+\input{imex1.tex}	
+\end{document}

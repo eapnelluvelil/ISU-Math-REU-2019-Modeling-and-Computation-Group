@@ -1,0 +1,6 @@
+% !TEX root = main.tex
+
+%BiCGSTAB method
+
+Today we implemented the bi-conjugate gradient stabilized method, known as BiCGSTAB. We coded it in the file $\texttt{radon\_transform\_v6.py}$ in a function titled $\texttt{radon\_inverse}$. The psudeocode for our code came from page 91 of Iterative Methods for Solving Linear Systems by Anne Greenbaum. We then implemented the code in a tester file and observed how fast different functions converged. The more radially symmetric the function was, the faster the convergence rate. \\
+We were able to observe a function that would not converge at a relatively quick rate. At that point, we determined that we needed to add a pre-conditioner. The question was, which pre-conditioner will work for our methods? At the end of the day, we had only found one that was quick to implement and made our functions converge at a quicker rate. This pre-conditioner, was to reduce the number of quadrature points for the inverse radon transform, as reducing the number of quadrature points for the forward radon transform makes an inaccurate radon transform. 

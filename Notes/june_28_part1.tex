@@ -1,0 +1,35 @@
+% !TEX root = main.tex
+
+\subsection*{Creating a Matrix Radon Operator}
+
+Our method for calculating the inverse radon transformation neccessitates an invertable matrix operator. 
+This matrix represents the Radon transform on a specific grid of $Ns \cdot N\omega$ points, performed using $Nq$ Clenshaw-Curtis quadrature points in each perpendicular line integral.
+\begin{align*}
+	\mat{R}\,\vec{f} = \vec{\hat{f}}.
+\end{align*}
+While this method can be solved iteratively through BICGSTAB or similar algorithms, invoking the Radon transformation is relatively expensive. 
+Moreover, such a system would need to be solved many, many times in a single $P_N$ approximation solution.
+As a result, it is more efficient in the long term to construct the matrix $\mat{R}$ once, and perform operations with it several times instead. 
+Written in this explicit matrix form, it is clear to see that 
+\begin{align*}
+	\mat{R^{-1}}\,\vec{\hat{f}} = \vec{f}.
+\end{align*}
+
+While simple in theory, this requires that the matrix $\mat{R}$ be constructed for each unique combination of $Ns$, $N\omega$, and $Nq$.
+One manner of constructing $\mat{R}$ involves tracing back  calculations through the various interpolation and quadrature rules, constructing the matrix row by row.
+However, due to the complex nature of these calculations, such a procedure ranges from impractical to impossible.
+
+Instead, we take advantage of unit coordinate vectors $\vec{e_i}$, zero vectors with a single element equal to 1 in the $i$-th position.
+Taking the product $\mat{R}\,\vec{e_i}$ thus returns a single column of $\mat{R}$.
+Additionally, the forward Radon transform can be computed without the use of this matrix using previously developed code.
+
+The principle downside of this process is its slow speed. For a domain with $Ns\cdot N\omega$ points, the forward radon transform must be computed this many times, which gets to be prohibitively expensive for large values.
+However, we take advantage of the structure of the input vector $\vec{e_i}$ to dramatically improve computation speed.
+This process is performed in the following function:
+$$\texttt{f\_hat} = \texttt{radon\_basis(i, j, Ns, Nw, Nq)}$$
+This function skips a large portion of the original $\texttt{radon}$ function by ignoring interpolation along diameters whose values are entirely zero.
+Additionally, because the input function is much simpler, the numpy method is substantially less memory intensive, meaning that the code can be vectorized in ways not practical for more complicated data.
+
+While constructing such a matrix appears to be the most practical method of calculating the inverse Radon transform, it comes with a set of implementation difficulties.
+The matrix $\mat{R}$ is rather dense, rather large, incredible ill-conditioned, and close to singular for large values of $N\omega$ and $Ns$.
+More investigation needs to be performed to find methods of either mitigating this cost, or avoiding it altogether.

@@ -1,0 +1,99 @@
+% !TEX root = main.tex
+
+The next problem of interest is a coupled system of hyperbolic equations.
+Specifically, we wrote code to solve the following system:
+\begin{align*}
+	\begin{bmatrix}
+		q_1\\
+		q_2
+	\end{bmatrix}_{,t} + 
+	\begin{bmatrix}
+		0 & 1 \\
+		1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		q_1 \\
+		q_2
+	\end{bmatrix}_{,x} = 
+	\begin{bmatrix}
+		0 \\
+		0
+	\end{bmatrix}
+\end{align*}
+These equations are derived from the 1D wave equation, $\phi_{,t,t} - \phi_{,x,x} = 0$ using the substitutions $q_1 = -\phi_{,t}$ and $q_2 = \phi_{,x}$
+
+The boundary conditions of this equation must be handled in the same way as the previously solved advection equation, being built in to the spatial discretization scheme.
+As a result, the 2 equations must be decoupled prior to discretization in space, being done using their eigenvalue decomposition.
+
+Taking the above matrix to be $\mat{A}$, using the derivation of 
+\begin{align*}
+	\mat{A} - \lambda \mat{I}) = 
+	\begin{bmatrix}
+		-\lambda & 1 \\
+		1 & \lambda
+	\end{bmatrix}
+\end{align*}
+it is found the eigenvalues of $\mat{A}$ are $\lambda = \pm 1$, with associated eigenvectors $[\quad 1]^T$ and $[-1\quad1]^T$ respectively.
+As a result, the equations are decomposed into the following system
+\begin{align*}
+	\begin{bmatrix}
+		q_1\\
+		q_2
+	\end{bmatrix}_{,t} + 
+	\begin{bmatrix}
+		1 & 1 \\
+		-1 & 1
+	\end{bmatrix}	
+	\begin{bmatrix}
+		-1 & 0 \\
+		0 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		\frac{1}{2} & \frac{-1}{2} \\
+		\frac{1}{2} & \frac{1}{2}
+	\end{bmatrix}
+	\begin{bmatrix}
+		q_1 \\
+		q_2
+	\end{bmatrix}_{,x} = 
+	\begin{bmatrix}
+		0 \\
+		0
+	\end{bmatrix}
+\end{align*}
+and the appropriate transformation in coordinates being made:
+\begin{align*}
+	\begin{bmatrix}
+		w_1\\
+		w_2
+	\end{bmatrix}_{,t} + 
+	\begin{bmatrix}
+		-1 & 0 \\
+		0 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		w_1 \\
+		w_2
+	\end{bmatrix}_{,x} = 
+	\begin{bmatrix}
+		0 \\
+		0
+	\end{bmatrix}
+\end{align*}
+Under this scheme, the following are true:
+\begin{align*}
+	q_1 = w_1 + w_2 \quad &\quad \quad w_1 = \frac{1}{2}(q_1 - q_2)\\
+	q_2 = w_2 - w_1 \quad &\quad \quad w_2 = \frac{1}{2}(q_1 + q_2)\\
+\end{align*}
+and the resulting decoupled advection equations can be solved with the same spectral differentiation matrix, provided the appropriate boundary conditions are enforced.
+Due to the particular decomposition, the inflow for $w_1$ occurs on the left-hand side of the domain, and the inflow for $w_2$ occurs on the right.
+
+$\quad$Then, we were working on coding with our new equations. We were trying to accomplish two things: test the stability of our new equations and solve the wave equation. When we were testing the stability of our new equations, we were working in the $\texttt{beuler\_advection.py}$ file. We have parts of the old equations commented out with the new equations in their places. With our new equations, we only have 3 orders of accuracy: first, second, and fourth. Since fourth order accuracy is still fairly accurate, we decided that we can move onto working with the wave equation instead of trying to figure out another equation to get up to sixth order accuracy. \\
+
+$\quad$We decided that we needed a second file to work with the wave equation so that we still had our $\texttt{beuler\_advection.py}$ file. We named this file $\texttt{wave\_equation.py}$. We were mostly just editing out $\texttt{beuler\_advection.py}$ file, so a lot of our code is a repeat of code that we had previously. In $\texttt{wave\_equation.py}$, we defined a function called $\texttt{wave}$ that we are using to solve the wave equation. 
+
+$$\texttt{q1, q1, s = wave( tf, N, dt, p0, pt0,  domain=[-1, 1], order=2, plot=True)}$$ 
+
+There were some major changes with the code from the $\texttt{beuler\_advection.py}$ file, though. One major change is that now, instead of just having one equation to work with, we have two. In addition to the fact that we have two equations, they need to do different things. So, we needed two values for everything that we did in the $\texttt{beuler\_advection.py}$ file. \\
+$\quad$We created two matrices, while still keeping the original the same, had two boundary conditions, had two lines of code in each order statement, and had two sets of transition equations to transition $w_1$ and $w_2$ to $q_1$ and $q_2$ and vice versa. We worked through writing all of the equations and at first, things were not working the way that we had hoped they would. But, after a simple switch of $w_1$ and $w_2$, things seemed to be working again. \\
+$\quad$At this point in time, we decided that we should try and figure out how to get our solved $q_1$ and $q_2$ valued back into their original form, $\phi$. After staring at the problem for a while, we decided to try and see if adding $w_1$ and $w_2$ was the solution we were looking for. However, we looked further and figured out that $w_1 + w_2 = q_1$. Although our plotting of these values seemed to be doing something that we were looking for, we knew that it wasn't right. We eventually deduced that we were not going to be able to figure this out on our own, and asked Christine for help. The only thing that she could think to do was to interpolate our chebyshev values, so she reached out to a colleague, Jay, for assistance. Jay agreed with Christine and mentioned that there is a MATLab program that can do large-scale interpolation. However, since we are using Python, that wasn't helpful to us. We decided to sleep on it, while partially hoping that we do not need to convert the solved $q_1$ and $q_2$ back into $\phi$.

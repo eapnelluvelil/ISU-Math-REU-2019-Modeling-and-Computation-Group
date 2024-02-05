@@ -1,0 +1,33 @@
+% !TEX root = main.tex
+
+\def\qr{\hat{q}}
+
+\section{IMEX for constant coefficient case}
+Consider a linear constant coefficient PDE of the form:
+\begin{equation}
+\vec{\qr}_{,t} + \mat{A}\left(\omega \right) \, \vec{\qr}_{,s} = \mat{C} \, \vec{\qr},
+\end{equation}
+where $\vec{\qr}(t,s): \reals^+ \times \reals \mapsto \reals^M$ and
+$\mat{A}, \mat{C} \in \reals^{M \times M}$. We wish to apply to this equation a
+Runge-Kutta IMEX (Implicit-Explicit) scheme that treats the spatial derivative implicitly and the collision term explicitly. In particular, we consider a third-order accurate scheme used by S. Pieraccini1 and G. Puppo (``Implicit?Explicit Schemes for BGK Kinetic Equations'', {\it Journal of Scientific Computing}, {\bf 32}, 2007). 
+In our context, this IMEX scheme takes the form:
+\begin{align}
+        \vec{\qr}^{ \, (1)} &= \vec{\qr}^{ \, n} - {\Delta t} \, a_{11} \, \mat{A} \, \vec{\qr}^{ \, (1)}_{,s}, \\
+       2 \le i \le \nu: \qquad \vec{\qr}^{ \, (i)} &= \vec{\qr}^{ \, n} + \Delta t \sum_{\ell = 1}^{i-1} \tilde{a}_{i\ell} \, \mat{C} \, \vec{\qr}^{ \, (\ell)} - {\Delta t} \sum_{\ell=1}^{i} a_{i\ell} \, \mat{A} \, \vec{\qr}^{(\ell)}_{,s}, \\
+        \vec{\qr}^{ \, n+1} &= \vec{\qr}^{ \, n} + \Delta t \sum_{i=1}^{\nu} \tilde{w}_i \, \mat{C} \, \vec{\qr}^{ \, (i)} - {\Delta t} \sum_{i = 1}^{\nu} w_i \, \mat{A} \, \vec{\qr}^{ \, (i)}_{,s}.
+\end{align}
+Alternatively, we can introduce the characteristic variables, $\vec{w}$, where:
+\begin{equation}
+\mat{A} = \mat{R} \, \mat{\Lambda} \, \mat{R}^{-1}, \quad \vec{w} := \mat{R}^{-1} \, \vec{\qr},
+\quad \text{and} \quad \vec{\qr} = \mat{R} \, \vec{w},
+\end{equation}
+as well as the following matrix:
+\begin{equation}
+ \mat{F} := \mat{R}^{-1} \, \mat{C} \, \mat{R}.
+\end{equation}
+In the characteristic variables, we can write the IMEX scheme as follows:
+\begin{align}
+        \text{for $p=1,\ldots,M$}: \qquad w^{ \, (1)}_p &= w^{ \, n}_p - {\Delta t} \, a_{11} \, \lambda_p \, w^{ \, (1)}_{p,s}, \\
+       \begin{matrix} \text{for $i=2,\ldots,\nu$} \\ \text{ \quad \quad for $p=1,\ldots,M$}: \end{matrix} : \qquad w^{ \, (i)}_p &= w^{ \, n}_p + \Delta t \sum_{\ell = 1}^{i-1} \tilde{a}_{i\ell} \, \sum_{q=1}^M F_{pq} \, w^{ \, (\ell)}_q - {\Delta t} \sum_{\ell=1}^{i} a_{i\ell} \, \lambda_p \, w^{(\ell)}_{p,s}, \\
+        \text{for $p=1,\ldots,M$}: \qquad  w_p^{ \, n+1} &= w^{ \, n}_p + \Delta t \sum_{i=1}^{\nu} \tilde{w}_i \, \sum_{q=1}^M F_{pq} \, w^{ \, (i)}_q - {\Delta t} \sum_{i = 1}^{\nu} w_i \, \lambda_p \, w^{ \, (i)}_{p,s}.
+\end{align}

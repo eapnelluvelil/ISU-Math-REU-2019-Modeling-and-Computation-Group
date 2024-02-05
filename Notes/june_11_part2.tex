@@ -1,0 +1,7 @@
+% !TEX root = main.tex
+
+We created a new Python file called $\texttt{radon\_transform\_v1.py}$. In this file, we coded definitions including $\texttt{clen\_curt(N)}$ and $\texttt{cc\_quad(f, a, b, N)}$. \\
+
+In $\texttt{clen\_curt(N)}$ we coded the Clenshaw-Curtis Quadrature that is described in MATLAB code on page 128 of Trefethen's book. We did most of the code the exact same, but with Python style rather than MATLAB. We were required to decrease the value of $N$ by $1$ since Python starts counting at $0$ while MATLAB starts counting at $1$. The method that is used in Trefethan's book uses something similar to the Fast Fourier Transform. The $\texttt{clen\_curt(N)}$ function is used in determining the chebyshev points and the weights, which we bring into the $\texttt{radon}$ function that is described below. \\
+
+In $\texttt{cc\_quad(f, a, b, N)}$ we coded a way to run a convergence test on the Clenshaw-Cutrist Quadrature so that we could test to see how well our code was doing the Clenshaw-Curtis Quadrature. Otherwise, we do not use $\texttt{cc\_quad(f, a, b, N)}$ to do anything else in our code at this point in time. 

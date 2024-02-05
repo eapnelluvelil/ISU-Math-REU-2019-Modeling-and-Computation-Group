@@ -1,0 +1,33 @@
+% !TEX root = main.tex
+
+\section*{Performing the inverse Radon transform to obtain a solution in $xy$ space}
+We wrote code within \verb|2d_wave_eq.py| to solve the two-dimensional wave equation in Radon transform space and convert the resulting solution to lie in $xy$-space.
+We could perform the forward Radon transform easily; it required little modification of the existing code to solve the homogeneous multidimensional wave equation solver.
+However, when we performed the inverse Radon transform using the LU decomposition of $\mat{R}$, the resulting solution in $xy$-space was of poor quality (as shown below).
+Furthermore, we noticed that performing the forward Radon transform introduced ripples within the graphical solutions; this is due to interpolation error and can be mitigated by using a more local interpolation scheme than the one we are currently using.
+\par
+When we recovered a solution using the previously discussed iteration (i.e. an iterative Tikhonov regularizer) and limiting the maximum number of iterations to one or two iterations, the solution ended up being in the ballpark of the true recovered solution.
+\par
+The following two figures show the initial conditions at time $t_{0} = 0$ in $xy$-space and Radon transform space, respectively.
+In the second figure, we can observe the rippling caused by interpolation error. 
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.475\textwidth}
+		\includegraphics[width=\textwidth]{wave_eqn_init_conds.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.475\textwidth}
+		\includegraphics[width=\textwidth]{rt_wave_eqn_init_conds.pdf}
+	\end{subfigure}
+\end{figure}
+The following two figures show the solution at time $t_{f} = 0.3$ in $xy$-space and Radon transform space, respectively, after one iteration of the iterative Tikhonov regularizer.
+Note that the true time is actually $t_{f}^{*} = 1.5$, but it has been scaled down by a factor of $a$, where $a$ is scaling factor of the domain.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[h]{0.475\textwidth}
+		\includegraphics[width=\textwidth]{wave_eqn_03_secs.pdf}
+	\end{subfigure}
+	\begin{subfigure}[h]{0.475\textwidth}
+		\includegraphics[width=\textwidth]{rt_wave_eqn_03_secs.pdf}
+	\end{subfigure}
+\end{figure}
+We are currently investigating how to mitigate the above mentioned issues.

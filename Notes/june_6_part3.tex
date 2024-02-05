@@ -1,0 +1,37 @@
+% !TEX root = main.tex
+
+Combining the Randon Transform and hyperbolic PDEs: \\ 
+We begin with our general form of the hyperbolic PDE which is a two-dimensional function with time
+\begin{align*}
+\vec{q}_{,t} + \mat{A}\,\vec{q}_{,x} + \mat{B}\,\vec{q}_{,y} = \vec{0}
+\end{align*}
+and then we begin to compute the Randon Transform on it. \\ 
+Note: $q(t,x,y)$ will become $q(s,x)$ after the transformation. \\
+
+\begin{align*}
+R(\vec{q}_{,t}) = \frac{\partial}{\partial t} R(\vec{q}) \\
+R(\mat{A}\,\vec{q}_{,x}) = \mat{A}R(\vec{q}_{,x}) = \mat{A}\cos(\omega)\frac{\partial}{\partial s}R(\vec{q}) \\
+R(\mat{B}\,\vec{q}_{,y}) = \mat{B}R(\vec{q}_{,y}) = \mat{B}\sin(\omega)\frac{\partial}{\partial s}R(\vec{q}) \\
+\end{align*}
+We then combine these into the form:
+\begin{align*}
+\frac{\partial}{\partial t} R(\vec{q}) + \mat{A}\cos(\omega)\frac{\partial}{\partial s}R(\vec{q}) + \mat{B}\sin(\omega)\frac{\partial}{\partial s}R(\vec{q}) = \vec{0} \\
+\widehat{\vec{q}}_{,t} + \widetilde{\mat{A}}(\omega)\widehat{\vec{q}}_{,s} = \vec{0} \\
+\widetilde{\mat{A}}(\omega) = \cos(\omega)\mat{A} + \sin(\omega)\mat{B}
+\end{align*}
+The second equation is a collection of one-dimensional problems parameterized by $\omega$. \\
+
+Initial Value Problems:
+\begin{align*}
+\vec{q}_{,t} + \mat{A}\,\vec{q}_{,x} + \mat{B}\,\vec{q}_{,y} = \vec{0} \\
+q(t=0,x,y) = q_0(x,y)
+\end{align*}
+
+Process: \\
+Step 1: Compute $R(q_0(x,y))$ \\
+Step 2: Solve from $t=0$ to $t=T$
+\begin{align*}
+\widehat{\vec{q}}_{,t} + \widetilde{\mat{A}}(\omega)\widehat{\vec{q}}_{,s} = \vec{0} \\
+\widehat{\vec{q}}(t=0,x,y) = R(q_0(x,y)
+\end{align*}
+Step 3: Compute $R^{-1}(\widehat{q}(T,s,w)$

@@ -1,0 +1,21 @@
+% !TEX root = main.tex
+
+Today we wrote the code \texttt{spec\_diff.py}, a module that contains the function \texttt{spectral\_diff}.
+This module takes as input a number of discretization points in space, optimized to be Chebyshev points, and optionally the range of those points. 
+It returns the location of the discretization points, as well as the associated spectral differentiation matrix.
+Its declaration and use is as follows:
+$$\texttt{s, D\_N = spectral\_diff( N, a = -1, b = 1)}$$
+
+This module is implemented through heavy use of numpy array indexing and broadcasting. 
+This is done in an effort to limit the number of for-loops required, as the current code has none.
+The diagonal of the matrix is constructed according to the numerically stable method described in Trefethen.
+This method takes advantage of the fact that the sum of the columns in each row is 0.
+
+Additionally, we begun work in the module \texttt{beuler\_advection.py}, which in its present state contains code to solve the following advection equation:
+\begin{align*}
+	&\hat{q}_{,t} + \hat{q}_{,s} = 0\\
+	&\hat{q}(t=0, s) = \hat{q}_0(s) \quad s \in [-1, 1]
+\end{align*}
+The equation is discretized in space according to the above spectral method code, and is discretized in time with Backwards Euler. 
+Presently, the code is incomplete, as solutions blow up near the edges of the domain.
+It is suspected that the source of the error is mathematical, rather than programmatic. 

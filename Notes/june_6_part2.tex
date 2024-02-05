@@ -1,0 +1,30 @@
+% !TEX root = main.tex
+
+The current problem of interest is the solution to multi-dimensional (2D) partial differential equations of the form: $\vec{a}$
+
+\begin{align}
+	\vec{q}_{,t} + \mat{A} \, \vec{q}_{,x} + \mat{B}\, \vec{q}_{,y} = \vec{0} \label{eq1}
+\end{align}
+
+where $M$ is the number of equations in the system, and
+
+\begin{align*}
+	&\mat{A}, \mat{B} \in \R^{M \times M},\\
+	&\vec{q}(t, \vec{x}) : \R^+ \times \R^2 \to \R^M.
+\end{align*}
+
+In particular, we are interested in the case of hyperbolic PDEs, for which the choice of $\mat{A}$ and $\mat{B}$ are limited.
+
+Define $\mat{\widetilde{A}}(\alpha)$ such that
+
+\begin{align*}
+	\mat{\widetilde{A}}(\alpha) = \cos(\alpha)\mat{A} + \sin(\alpha)\mat{B}, \quad \alpha \in \R.
+\end{align*}
+
+Equation \ref{eq1} is hyperbolic if $\ub{\ub{\widetilde{A}}}(\alpha)$ is diagonalizable with only real eigenvalues for all $\alpha \in \R$.
+That is to say, $\mat{\widetilde{A}}(\alpha) = \mat{R}\, \mat{\Lambda}\, \mat{R}^{-1}$ where $\mat{\Lambda} = \texttt{diag}(\lambda_1, \lambda_2, \dots, \lambda_M) \in \R^{M \times M}$ and the columns of $\mat{R}$ are linearly independent eigenvectors of $\mat{\widetilde{A}}(\alpha)$.
+
+By this definition, systems with symmetric $\mat{\widetilde{A}}(\alpha)$ are among hyperbolic PDEs.
+The hyperbolicity of a system relates to the transmission speed of information.
+If the PDEs are hyperbolic, then the information is transmitted at a finite speed.
+For example, the heat equations are not hyperbolic, while the wave equations are.

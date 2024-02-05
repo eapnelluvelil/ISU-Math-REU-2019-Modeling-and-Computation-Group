@@ -1,0 +1,69 @@
+% !TEX root = main.tex
+
+Today, we settled on taking the physical domain for the radiative transfer problem to be the unit disk centered at $(0, 0)$ discretized by equispaced angles $\{ \omega_j \}_{j=1}^{N}$.
+We discretize the line that makes an angle of $\omega_{j}$ with the positive x-axis for $j = 1, 2, \hdots, N$ using the Chebyshev points.
+This results in the following picture
+% \includegraphics[\width=0.5\textwidth]{imagefile}
+Our transformed space should roughly look like the following
+% \includegraphics[\width=0.5\textwidth]{imagefile}
+\par 
+To compute the Radon transform at angle $\omega_{j}$ at a point $s_{i}$ along the line defined by $\omega_{j}$, we compute the following line integral
+\begin{align*}
+	\hat{f}(s_{i}, \omega{j}) & = \int_{-\infty}^{\infty} f(s_{i} \cos (\omega_{j}) - z \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + z \cos (\omega_{j})) \, dz
+\end{align*}
+in the $z$-direction.
+Graphically, this is the line integral along the chord passing through $s_{i}$ and perpendicular to the line defined by $\omega_{i}$.
+We first assume the function $f$ is compactly supported (here, we take this to mean that $f$ is zero outside of the unit disk).
+To compute the above line integral, we have to first compute the $z$-coordinates of the endpoints of the aforementioned chord.
+Note that the distance from the left endpoint of the chord to $s_{i}$ (denoted $r_{1}$) and the distance from the right endpoint of the chord to $s_{i}$ (denoted $r_{2}$) are equal i.e. $r_{1} = r_{2} = r$.
+\par 
+To compute $r$, we simply use the Pythagorean theorem.
+Without loss of generality, we form a right triangle whose sides consist of the line from the origin to the left endpoint of the chord, the line from the origin to $s_{i}$, and the line from $s_{i}$ to the left endpoint of the chord.
+We know that the distance from the origin to the left endpoint of the chord is $1$ because we are on the unit disk. 
+Hence, $r = \sqrt{1 - s_{i}^{2}}$. 
+\par 
+Now, the above line integral becomes
+\begin{align*}
+	\hat{f}(s_{i}, \omega_{j}) & = \int_{-\infty}^{\infty} f(s_{i} \cos (\omega_{j}) - z \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + z \cos (\omega_{j})) \, dz \\
+	& = \int_{-r}^{r} f(s_{i} \cos (\omega_{j}) - z \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + z \cos (\omega_{j})) \, dz
+\end{align*}
+In practice, we will not know how to compute the above line integral analytically, so we turn to approximating the integral using quadrature rules.
+\par 
+We can use Clenshaw-Curtis quadrature quadrature to approximate the definite integral of a continuous functions $f$ on the interval $[-1, 1]$ i.e.
+\begin{align*}
+	\int_{-1}^{1} f(x) \, dx & \approx \sum_{i=0}^{N-1} w_{i} f(x_{i})
+\end{align*}
+where $w_{i}$ is the $i^{th}$ quadrature weight and $x_{i}$ is the $i^{th}$ Chebyshev point ($i = 0, 1, \hdots, N-1$).
+However, this rule (and most other quadrature rules) only approximate definite integrals from $[-1, 1]$, and we want to approximate definite integrals on an arbitrary interval $[a, b]$.
+\par 
+Let $\vec{t} = [ x_0 \quad x_1 \quad \hdots \quad x_N]^{T}$ be $(N+1)$ Chebyshev points on $[-1, 1]$.
+We can rescale the entries of $\vec{t}$ to lie on $[a, b]$ as follows
+\begin{align*}
+	z(t) & = \frac{b+a}{2} + \frac{b-a}{2} \, t
+\end{align*}
+If we want to compute the definite integral of a continuous function $f$ on $[a, b]$, we can use the above substitution i.e.
+\begin{align*}
+	\int_{a}^{b} f(z) \, dz & = \frac{b-a}{2} \, \int_{-1}^{1} g(t) \, dt
+\end{align*}
+where $dz = \frac{b-a}{2} \, dt$ and $g : [-1, 1] \rightarrow [a, b]$ is defined as follows
+\begin{align*}
+	g(t) & = f \Bigg( \frac{b+a}{2} + \frac{b-a}{2} \, t \Bigg)
+\end{align*}
+\par 
+We can approximate the line integral
+\begin{align*}
+	\int_{-r}^{r} f(s_{i} \cos (\omega_{j}) - z \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + z \cos (\omega_{j})) \, dz
+\end{align*}
+by using the Clenshaw-Curtis quadrature rule in the $z$-direction and by using the substitution
+\begin{align*}
+	z & = \frac{r + (-r)}{2} + \frac{r - (-r)}{2} \\
+	  & = rt \\
+	dz & = r \, dt
+\end{align*}
+Thus,
+\begin{align*}
+	\int_{-r}^{r} f(s_{i} \cos (\omega_{j}) - z \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + z \cos (\omega_{j})) \, dz & = 
+	r \int_{-1}^{1} f(s_{i} \cos (\omega_{j}) - rt \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + rt \cos (\omega_{j})) \, dt \\
+	& \approx r \sum_{k=0}^{N} w_{k} f(s_{i} \cos (\omega_{j}) - rt_{k} \sin (\omega_{j}), \, s_{i} \sin (\omega_{j}) + rt_{k} \cos (\omega_{j}))
+\end{align*}
+Doing this for every angle $\omega_{j}$ and for every discretization point $s_{i}$ along the line defined by $\omega_{j}$, we can effectively approximate the Radon transform of the function $f$ defined on the unit disk centered at $(0, 0)$. 

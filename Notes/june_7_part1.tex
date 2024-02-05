@@ -1,0 +1,42 @@
+% !TEX root = main.tex
+
+\subsection{Application}
+
+The application of interest to us is Radiative Transfer, a model for subatomic particles (specifically photons and neutrons) propogating in a homogenous medium.
+The principle governing equation is as follows:
+\begin{align*}
+	F_{,t} + \vec{\Omega} \cdot \vec{\nabla}F + \sigma F = \frac{\sigma}{4\pi}\int_{\mathbb{S}^2}F\,d\vec\Omega
+\end{align*}
+We want to solve for the distribution of particles
+\begin{align*}
+	F( t, \vec{x}, \vec{\Omega}) : \quad \R^+ \times \R^3 \times \mathbb{S}^2 \to \R
+\end{align*}
+where $t$ is time, $\vec{x}$ is a position, and $\vec{\Omega}$ are angular variables.
+
+In many ways, this equation is relatively simple, consisting of two "types" of terms.
+The first of these is $ \vec{\Omega} \cdot \vec{\nabla}F $, which determines the advective character of the particles.
+This is essentially transport with velocity $\vec{\Omega}$ (Note that $||\vec{\Omega}|| = 1$, thus all particles have speed exactly equal to 1).
+
+The other terms can be combined into the collision term 
+\begin{align*}
+	\sigma\left(\frac{\sigma}{4\pi}\int_{\mathbb{S}^2}F\,d\vec\Omega - F\right).
+\end{align*}
+As an explanation for this terms effect on $F$, consider the following simple ordinary differential equation:
+\begin{align*}
+	F_{,t} = \sigma( G - F ).
+\end{align*}
+The solution to this equation is $F(t) = G + ce^{-\sigma t}$, which approaches $G$ as $t$ approaches infinity.
+Analogously, this term in our model causes $F$ to "approach" $\frac{\sigma}{4\pi}\int_{\mathbb{S}^2}F\,d\vec\Omega\,$ as $t\to \infty$.
+Moreover, because $\frac{\sigma}{4\pi}\int_{\mathbb{S}^2}F\,d\vec\Omega\,$ is equivalent to the angular average of the particles, this term indicates that the collisions in the system removes its angular dependence.
+In other words, the particles are uniform across angles, and form an isotropic state.
+
+When arranged into the following form, the model becomes a linear transport equation:
+\begin{align*}
+	F_{,t} + \vec{\Omega} \cdot \vec{\nabla}F = \sigma \left(\frac{\sigma}{4\pi}\int_{\mathbb{S}^2}F\,d\vec\Omega - F\right)
+\end{align*}
+
+However, while the PDE can be expressed simply, it is far from trivial. 
+In particular, it is still a distribution functino in as many as $ 1 + 5$ dimensions.
+This makes it fall under the influence of the curse of dimensionality, in which computational cost increases exponentially with dimension.
+Typically, a problem that can be solved in $O(N)$ in 1D, must be solved in $O(N^d)$ in $d$-dimensions.
+As a result some simplifications must be done on this problem to make it solvable in a resonable computation time.

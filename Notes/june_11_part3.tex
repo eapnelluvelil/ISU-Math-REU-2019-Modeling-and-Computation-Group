@@ -1,0 +1,32 @@
+% !TEX root = main.tex
+
+Today we completed the code $\texttt{radon\_transform\_v1.py}$, a module that contains functions to compute numerical quadrature and the forwards radon transformation.
+The functions $\texttt{clen\_curt}$ and $\texttt{cc\_quad}$ create the nodes/weights for the Clenshaw-Curtis quadrature and approximate the integral respectively.
+Their function declarations and return types are as follows:
+$$\texttt{x, v = clen\_curt(N)}$$
+where $x$ are the nodes, $v$ are the weights, and $N$ is the number of points used in the approximation.
+$$\texttt{approx = cc\_quad(f, a, b, N)}$$
+where $f$ is the function to be integrated along $[a, b]$ using $N$ quadrature points.
+$\texttt{clen\_curt}$ is copied nearly line for line from page 128 in the Trefethen text, translated from MATLAB.
+The most notable difference is that Trefethen's version of the function computes the integral along $N$ intervals, rather than $N$ quadrature points.
+
+
+The function $\texttt{radon}$ computes the forwards radon transformation.
+Its declaration and return values are as follows:
+$$\texttt{f\_hat = radon( f, Ns, Nw )}$$
+where $f$ is the function to be approximated, $\texttt{Ns}$ and $\texttt{Nw}$ are the discretization level for $s$ and $\omega$ respectively, $\texttt{t\_hat}$ is the radon transformation at each of the above points, returned in an $\texttt{Ns}\times\texttt{Nw}$ array.
+The discretization follows the method described above, in which each point is located on the unit circle, and the diameter determined by each $\omega$ is spanned by chebyshev points. 
+
+Although the true radon transform computes an integral across the real values, the code assumes that the function to be approximated is zero outside of the unit circle.
+As a result, the quadrature points are only placed along the appropriate chord.
+Additionally, the length of this chord is calculated in order to appropriately scale the integration to match the weights given by $\texttt{clen\_curt}$, which are valid only from $[-1, 1]$. 
+Finally, the discretization for $s$ and $\omega$ are returned in a meshgrid.
+While this is comparatively inefficient, this allows for simple plotting of the space and transformation.
+
+In the future, extra care should be taken to remove the nested for loop structure to improve the runtime of the code.
+That being said, this calculation is only done once over the course of a single problem, being done more or less offline.
+
+Moreover, this code makes the assumption that the function to be transformed, $f$, can be evaluated at arbitrary points. In practice, $f$ is only known at the specific discretization points described above.
+As a result, the code must eventually be rewritten to accomodate this.
+The current plan is to attempt this process using a higher order interpolation scheme on the points, then computing the radon transformation of the interpolant instead.
+This way, an inverse radon transformation can more easily be created and applied.

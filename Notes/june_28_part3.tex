@@ -1,0 +1,95 @@
+% !TEX root = main.tex
+
+Before we try to code the $P_n$ solution code, we decided to start simpler and code 2-dimensional wave equation solver code. The equations that we are trying to solve are:
+
+\begin{align*}
+p_{,t} + u_{,x} + v_{,y} &= 0 \\
+u_{,t} + p_{,x} &= 0 \\
+v_{,t} + p_{,y} &= 0
+\end{align*}
+
+These can be put into matrix form like:
+
+\begin{align*}
+\begin{bmatrix}
+p \\
+u \\
+v
+\end{bmatrix}
+_{,t}
++
+\begin{bmatrix}
+0\quad1\quad0 \\
+1\quad0\quad0 \\
+0\quad0\quad0
+\end{bmatrix}
+\begin{bmatrix}
+p \\
+u \\
+v
+\end{bmatrix}
+_{,x}
++
+\begin{bmatrix}
+0\quad0\quad1 \\
+0\quad0\quad0 \\
+1\quad0\quad0 \\
+\end{bmatrix}
+\begin{bmatrix}
+p \\
+u \\
+v
+\end{bmatrix}
+_{,y}
+= 0
+\end{align*}
+
+An example of this wave equation is below. The first two statements are the domain and the final time of the original problem.
+
+\begin{align*}
+(x, y) \in [-4, 4] \\
+\text{final time: 1.5 seconds}
+\end{align*}
+
+These next equations are the actual equations that we are working on solving.
+
+\begin{align*}
+p(t = 0, x, y) & = p_0(x + 1, y + 1.5) + 1.5p_0(1.25(x - 0.75), 1.25(y - 1.1)) \\
+u(t = 0, x, y) & = v(t = 0, x, y) = 0 \\
+p_0(x, y) & = 
+\begin{cases}
+\cos(\frac{\pi}{2}(x^2 + y^2)) & \text{if } x^2 + y^2 \leq 1 \\
+0 & \mbox{\text{otherwise} }
+\end{cases}
+\end{align*}
+
+However, we want to run this when the domain is closer to $[-1, 1]$. Therefore, we need to rescale our values and our equations.
+
+\begin{align*}
+\tilde{x} = \frac{x}{a} \quad
+\tilde{y} = \frac{y}{a} \quad
+\tilde{t} = \frac{t}{a} \\
+\frac{\partial}{\partial x} = \frac{\partial \tilde{x}}{\partial x} \frac{\partial}{\partial \tilde{x}} = \frac{1}{a} \frac{\partial}{\partial \tilde{x}}
+\end{align*}
+
+The bottom equation is similar for $y$ and $z$ as well. This changes our basic equations to: 
+
+\begin{align*}
+\frac{1}{a}p_{,t} + \frac{1}{a}u_{,x} + \frac{1}{a}v_{,y} &= 0 \\
+\frac{1}{a}u_{,t} + \frac{1}{a}p_{,x} &= 0 \\
+\frac{1}{a}v_{,t} + \frac{1}{a}p_{,y} &= 0 \\
+(x, y) \in \left[\frac{-4}{a}, \frac{4}{a}\right]^2
+\end{align*}
+
+And our specific equations to:
+
+\begin{align*}
+p(\tilde{t} = 0, \tilde{x}, \tilde{y}) = &p_0(a\tilde{x} + 1, a\tilde{y} + 1.5) + 1.5p_0(1.25(a\tilde{x} - 0.75), 1.25(a\tilde{y} - 1.1)) \\
+p_0(\tilde{x}, \tilde{y}) &= 
+\begin{cases}
+\cos(\frac{\pi}{2}(a\tilde{x}^2 + a\tilde{y}^2)) & \text{if } a\tilde{x}^2 + a\tilde{y}^2 \leq 1 \\
+0 & \mbox{\text{otherwise} }
+\end{cases}
+\end{align*}
+
+We just replaced every $x$ with $a\tilde{x}$ and every $y$ with $a\tilde{y}$. At the end of the day, we had some code written for these equations, but we had not yet ran radon transform code, solver code, or inverse radon transform code on them. 

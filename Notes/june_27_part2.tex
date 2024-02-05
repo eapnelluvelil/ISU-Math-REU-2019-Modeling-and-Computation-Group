@@ -1,0 +1,7 @@
+% !TEX root = main.tex
+
+At the start of the day, we wanted to test to see if we were getting the same matrix out of the file that we got into the file. Once the code had all the elements it needed, there were errors with the h5py side of the code. For a while it seemed that when you fixed one issue, another popped up, usually dealing with NumPy and the encoder. \\
+
+It eventually became apparent that we needed to flatten the matrix into an array before we saved it. Then, we had to deal with the issue of getting the matrix back the way that we sent it. Since we are working in Python3.7, if we use a group, we are working with a closed dataset that will not allow us to pull the items out. At this point, we stopped using a group until we could get our matrix back. \\
+
+This didn't fix all of our problems though. We still need to extract the information from the dataset. When we converted the value to a string, we were able to see the type of the value. We also looked at the keys, the values, and the items. These didn't give us much more information than we already had. At the end of the day we found a book that we hope will shed some more light on how to get our data back into a form that we can use in the implementation of our code.

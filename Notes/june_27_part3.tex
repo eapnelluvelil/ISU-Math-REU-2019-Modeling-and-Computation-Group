@@ -1,0 +1,20 @@
+% !TEX root = main.tex
+
+\section*{Testing iterative methods with the LU decomposition}
+We wrote code to solve the modified system that Dr. Rossmanith proposed yesterday.
+We first computed $\mat{R}$ using \verb|radon_matrix.py|, then computed $\mat{R^{T} R}$ and its corresponding eigenvalues.
+Although $\mat{R^{T} R}$ is a symmetric, semi-positive-definite matrix i.e. it has real and non-negative eigenvalues in exact arithmetic, $\mat{R^{T} R}$ will have eigenvalues with a negligible imaginary component due to floating point calculations.
+We then selected the minimum eigenvalue $\lambda_{min}$ and computed the magnitude $mag$ of $\lambda_{min}$ by taking $mag = \log_{10} (\lambda_{min} + \epsilon_{mach})$, where $\epsilon_{mach}$ is machine epsilon to prevent taking the $\log$ of $0$.
+\par 
+Once we did this, we formed the matrix $\Big( \mat{R^{T} R} + \mu \mat{I} \Big)$ where $\mu = 10^{mag}$.
+We then used a simple while loop to iteratively solve the system discussed previously, and we set the stopping criterion to be when the relative $2$-norm of the current residual, defined as
+\begin{align*}
+	res_{k} & = \frac{||\vec{\hat{f}} - \mat{R} \, \vec{f}^{k}||_{2}}{||\vec{\hat{f}}||_{2}}
+\end{align*}
+falls below some previously specified tolerance $tol$.
+\par 
+As expected, the system did converge with the speed of the convergence dictated by the size of $\mu$.
+If $\mu$ was much larger large relative to $\lambda_{min}$ $\mat{R^{T} R}$, the above system would take a large number of iterations until $res_{k}$ fell below a reasonable tolerance, say $10^{-10}$.
+If $\mu$ was not much larger than $\lambda_{min}$, the above system would take a few iterations for the residual to fall below $10^{-10}$, but the conditioning of the system would be similar to $\mat{R^{T} R}$ (which could be very large).
+\par 
+However, the number of iterations grew very large even when our problem size was modest, so we scrapped the idea of iteratively solving this modified form of the normal equations.

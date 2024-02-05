@@ -1,0 +1,93 @@
+% !TEX root = main.tex
+
+We needed to have an exact solution in order to test to see if our code was even slightly working. This equation is for the radially symmetric $P_1$ case. 
+
+\begin{align*}
+\begin{bmatrix}
+p \\
+u_r
+\end{bmatrix} _{,t}
++
+\begin{bmatrix}
+0 & \frac{1}{\sqrt{3}} \\
+\frac{1}{\sqrt{3}} & 0
+\end{bmatrix}
+\begin{bmatrix}
+p \\
+u_r
+\end{bmatrix} _{,r}
+=
+\begin{bmatrix}
+-\frac{1}{r\sqrt{3}} u_r \\
+-\sigma u_r
+\end{bmatrix}
+\end{align*}
+
+Where $r \in [-1, 1]$ and r is on the Chebyshev points. 
+
+We can decouple this system.
+
+\begin{align*}
+&\vec{w} = \mat{R^{-1}}
+\begin{bmatrix}
+p \\
+u_r
+\end{bmatrix} \\
+&w_1 = \frac{1}{2}(p - u_r), \quad
+w_2 = \frac{1}{2}(p + u_r) \\
+&\text{Alternatively} \\
+&p = w_1 + w_2, \quad
+u_r = w_2 - w_1
+\end{align*}
+
+This becomes:
+
+\begin{align*}
+\begin{bmatrix}
+w_1 \\
+w_2
+\end{bmatrix} _{,t}
++ 
+\begin{bmatrix}
+-\frac{1}{\sqrt{3}} & 0 \\
+0 & \frac{1}{\sqrt{3}}
+\end{bmatrix}
+\begin{bmatrix}
+w_1 \\
+w_2
+\end{bmatrix} _{,r}
+=
+\begin{bmatrix}
+\frac{1}{2r\sqrt{3}} - \frac{\sigma}{2} & -\frac{1}{2r\sqrt{3}} + \frac{\sigma}{2} \\
+\frac{1}{2r\sqrt{3}} + \frac{\sigma}{2} & -\frac{1}{2r\sqrt{3}} - \frac{\sigma}{2}
+\end{bmatrix}
+\begin{bmatrix}
+w_1 \\
+w_2
+\end{bmatrix}
+\end{align*}
+Which is equivalent to:
+\begin{align*}
+\vec{w}_{,t} + \mat{\Lambda} \, \vec{w}_{,r} = \mat{F(r)} \, \vec{w}
+\end{align*}
+Note: The $\mathcal{W}$ is the discretized form over the mesh.
+\begin{align*}
+\vec{\mathcal{W}_1}_{,t} - \frac{1}{\sqrt{3}} \mat{D} \, \vec{\mathcal{W}_1} = \text{diag}(F_{11}) \vec{\mathcal{W}_1} + \text{diag}(F_{12})\vec{\mathcal{W}_2} \\
+\vec{\mathcal{W}_2}_{,t} - \frac{1}{\sqrt{3}} \mat{D} \, \vec{\mathcal{W}_2} = \text{diag}(F_{21}) \vec{\mathcal{W}_1} + \text{diag}(F_{22})\vec{\mathcal{W}_2}
+\end{align*}
+Which is equivalent to:
+\begin{align*}
+\begin{bmatrix}
+\vec{\mathcal{W}_1} \\
+\vec{\mathcal{W}_2}
+\end{bmatrix} _{,t}
+=
+\begin{bmatrix}
+\frac{1}{\sqrt{3}} \mat{D} + \text{diag}(F_{11}) & \text{diag}(F_{12}) \\
+\text{diag}(F_{21}) & -\frac{1}{\sqrt{3}} \mat{D} + \text{diag}(F_{22})
+\end{bmatrix}
+\begin{bmatrix}
+\vec{\mathcal{W}_1} \\
+\vec{\mathcal{W}_2}
+\end{bmatrix} 
+\end{align*}

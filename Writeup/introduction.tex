@@ -1,0 +1,24 @@
+% !TEX root = main.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Imaging}
+
+The Radon transformation commonly seen alongside imaging problems.
+Fundamentally, the imaging problem attempts to reconstruct a distribution from measurements taken at several different angles.
+A familiar example of this is any kind of medical imaging device, such as an MRI machine.
+The device collects measurements from several angles, which are used to reconstructed an accurate image.
+When applied to a mathematical function, the Radon transform produces these measurements, or more accurately profiles, with integrals.
+Likewise, the inverse Radon transform restores the original function from a collection of profiles spanning all angles.
+Many properties of the Radon transform cause standard PDE solution methods to be simpler on the profiles than on the original domain.
+For this paper specifically, we take advantage of the dimension-intertwining properties of the Radon transform to simplify solution methods of hyperbolic PDEs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Previous Work}
+
+Existing literature regarding this method is sparse.
+Much of the theoretical groundwork is owed to the work of \textit{Dimensional Splitting of Hyperbolic Partial Differential Equations using the Radon Transform} by Donsub Rim.\cite{Rim:5}
+Here, Rim was able to use a coarse approximation to the Radon transform to use large time stepping methods to solve the hyperbolic PDEs we are interested in.
+Our method follows the same basic procedure, but uses a more accurate forward and inverse Radon transform to produce more numerically viable results.

@@ -1,0 +1,128 @@
+% !TEX root = main.tex
+
+Suppose that the $xy$ coordinate system is the original coordinate system, and we have rotated the coordinate system by an angle $\omega$ to obtain the $sz$ coordinate system.
+We can convert between the two coordinate systems using the following relationships:
+\begin{align*}
+	x(s, z; \omega) & = s \cos (\omega) - z \sin (\omega) \\
+	y(s, z; \omega) & = s \sin(\omega) + z \cos (\omega)
+\end{align*}
+Once we pick $\omega$, we can measure $\hat{f}(s_{k}; \omega)$ for $k = 1, 2, 3, \hdots$ (for however many receiver locations there are).
+We can then pick another $\omega$ and repeat the above process. 
+\par 
+Suppose $s$ is a continuous variable.
+We denote $\hat{f}(s, \omega)$ to be the Radon transform of $f(x, y)$, and is defined by
+\begin{align*}
+	\hat{f}(s, \omega) & := \int_{-\infty}^{\infty} f(x, y) dz \\
+					   & = \int_{-\infty}^{\infty} f\big( s \cos (\omega) - z \sin (\omega), s \sin(\omega) + z \cos (\omega) \big) dz
+\end{align*}
+where we have used the relationships between the $xy$ and $sz$ coordinate systems.
+Note that the $z$ variable disappears because we are taking the line integral with respect to $z$ in the above definition. 
+\par 
+The \underline{imaging problem} (or inverse problem) is given $\hat{f}(s, \omega)$ (the Radon transform of $f(x, y)$), we want to recover $f(x, y)$.
+\par 
+Suppose we fix $\omega$.
+Using the chain rule and the previous relationships between the $xy$ and $sz$ coordinate systems, we get that
+\begin{align*}
+	\frac{\partial}{\partial x} & = \frac{\partial s}{\partial x} \frac{\partial}{\partial s} + \frac{\partial z}{\partial x} \frac{\partial}{\partial z} \\
+	\frac{\partial}{\partial y} & = \frac{\partial s}{\partial y} \frac{\partial}{\partial s} + \frac{\partial z}{\partial y} \frac{\partial}{\partial z}
+\end{align*}
+We can write the relationships between the $xy$ and $sz$ coordinate systems in matrix form:
+\begin{align*}
+	\begin{bmatrix}
+		x \\
+		y
+	\end{bmatrix}
+	& = 
+	\begin{bmatrix}
+		\cos (\omega) & - \sin (\omega) \\
+		\sin (\omega) & \cos (\omega)
+	\end{bmatrix}
+	\begin{bmatrix}
+		s \\
+		z
+	\end{bmatrix} \\
+	& = C 
+	\begin{bmatrix}
+	s \\
+	z
+	\end{bmatrix}
+\end{align*}
+where $C = \begin{bmatrix} \cos (\omega) & - \sin (\omega) \\ \sin (\omega) & \cos (\omega)\end{bmatrix}$.
+\par 
+Multiplying the above equation on both sides by the inverse of $C$ (which we can easily verify is given by the following),
+\begin{align*}
+	C^{-1} & = 
+	\begin{bmatrix}
+		\cos (\omega)  & \sin(\omega) \\
+		-\sin (\omega) & \cos(\omega)
+	\end{bmatrix}
+\end{align*}
+we get that
+\begin{align*}
+	\begin{bmatrix}
+	s \\
+	z
+	\end{bmatrix}
+	& =
+	\begin{bmatrix}
+		\cos (\omega) & \sin (\omega) \\
+		-\sin (\omega) & \cos (\omega)
+	\end{bmatrix}
+	\begin{bmatrix}
+		x \\
+		y
+	\end{bmatrix}
+\end{align*}
+We see that
+\begin{align*}
+	\frac{\partial s}{\partial x} & = \cos (\omega) & \frac{\partial s}{\partial y} & = \sin (\omega) \\
+	\frac{\partial z}{\partial x} & = -\sin (\omega) & \frac{\partial z}{\partial y} & = \cos (\omega)
+\end{align*}
+Thus
+\begin{align*}
+	\frac{\partial}{\partial x} & = \cos (\omega) \frac{\partial}{\partial s} -\sin (\omega) \frac{\partial}{\partial z} \\
+	\frac{\partial}{\partial y} & = \sin (\omega) \frac{\partial}{\partial s} + \cos (\omega) \frac{\partial}{\partial z}
+\end{align*}
+We are interested in the Radon transform of $\frac{\partial f}{\partial x} := f_{, x}$.
+By definition of the Radon transform from earlier, we have that $\widehat{f_{, x}}(s, w)$ (the Radon transform of $f_{, x}$) is defined as follows:
+\begin{align*}
+	\widehat{f_{, x}}(s, \omega) & = \int_{-\infty}^{\infty} f_{, x}(x, y) \, dz \\
+							& = \int_{-\infty}^{\infty} f_{, x}(s \cos (\omega) - z \sin (\omega), s \sin (\omega) + z \cos (\omega)) \, dz \\
+							& = \int_{-\infty}^{\infty} \Big( \cos (\omega) f_{, s} - \sin (\omega) f_{, z} \Big) \, dz \\
+							& = \cos (\omega) \int_{-\infty}^{\infty} f_{, s} \, dz - \sin (\omega) \int_{-\infty}^{\infty} f_{, z} \, dz
+\end{align*}
+We can pull the partial derivative with respect to $s$ out of the first term in the above expression.
+Furthermore, if we assume that $f$ has compact support, we get that $f(z = \infty) = 0$ and $f(z = -\infty) = 0$.
+Thus,
+\begin{align*}
+	\int_{-\infty}^{\infty} \, f_{, z} dz & = f(z = \infty) - f(z = -\infty) \\
+									   & = 0 - 0 \\
+									   & = 0
+\end{align*}
+Thus, we get that
+\begin{align*}
+	\widehat{f_{, x}}(s, \omega) = \cos (\omega) \frac{\partial}{\partial s} \Bigg( \int_{-\infty}^{\infty} f \, dz \Bigg)
+\end{align*}
+From earlier, we know that $\hat{f}(s, \omega) = \int_{-\infty}^{\infty} f \, dz$, so we get that
+\begin{align*}
+	\widehat{f_{, x}}(s, \omega) & = \cos (\omega) \frac{\partial}{\partial s} \hat{f} (s, \omega) \\
+								 & = \cos (\omega) \hat{f}_{, s} (s, \omega)
+\end{align*}
+where $\hat{f}_{, s} (s, \omega)$ denotes the partial derivative with respect to $s$ of the Radon transform of $f$.
+In alternate notation,
+\begin{align*}
+	R(f_{, x}) (s, \omega) & = \cos (\omega) \frac{\partial}{\partial s} R(f) (s, \omega)
+\end{align*}
+We can compute the Radon transform of $\frac{\partial f}{\partial y} := f_{, y}$ in a similar manner.
+\begin{align*}
+	\widehat{f_{, y}}(s, \omega) & = \int_{-\infty}^{\infty} f_{, y} \, dz \\
+								 & = \int_{-\infty}^{\infty} \Big( \sin(\omega) f_{, s} + \cos (\omega) f_{, z} \Big) \, dz \\
+								 & = \sin (\omega) \frac{\partial}{\partial s} \int_{-\infty}^{\infty} f \, dz \\
+								 & = \sin(\omega) \frac{\partial}{\partial s} \hat{f} (s, \omega) \\
+								 & = \sin (\omega) \hat{f}_{, s} (s, \omega)
+\end{align*}
+In alternate notation,
+\begin{align*}
+	R(f_{, y}) (s, \omega) & = \sin (\omega) \frac{\partial}{\partial s} R(f) (s, \omega)
+\end{align*}
+We see that when we take Radon transforms of the partial derivatives of $f$, we end up dealing with only the partial derivatives of the Radon transform of $f$ with respect to $s$.

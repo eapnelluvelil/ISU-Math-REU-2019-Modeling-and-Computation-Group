@@ -1,0 +1,41 @@
+% !TEX root = main.tex
+
+% June 7, Part 3
+
+\section*{Daily update on code}
+Today, we worked on generalizing the one-dimensional wave equation code so that it would solve more than two advection equations with absorbing boundary conditions simultaneously.
+We begin with the potentially coupled system of equations we obtain by transforming the wave equation
+\begin{align}
+	\vec{q}_{, t} + \mat{A} \, \vec{q}_{, x} & = \vec{0}
+\end{align}
+We assume that $\mat{A}$ is a symmetric $M \times M$ matrix with real entries and that we can take the spectral decomposition of $\mat{A}$ as follows
+\begin{align}
+	\mat{A} & = \mat{R} \, \mat{\Lambda} \, \mat{R^{-1}}
+\end{align}
+where $\mat{R}$ is the matrix whose columns are the eigenvectors of $\mat{A}$ and $\mat{\Lambda}$ is the diagonal matrix whose diagonal entries contain the eigenvalues of $\mat{A}$.
+We can then use the above decomposition to write the original system of equations as
+\begin{align}
+	\vec{q}_{, t} + \mat{R} \, \mat{\Lambda} \, \mat{R^{-1}} \, \vec{q}_{, x} & = \vec{0}
+\end{align}
+We multiply the above equation through by $\mat{R^{-1}}$ to obtain
+\begin{align}
+	\mat{R^{-1}} \, \vec{q}_{, t} + \mat{\Lambda} \, \mat{R^{-1}} \, \vec{q}_{, x} & = \vec{0}
+\end{align}
+Since $\mat{R}$ (and $\mat{R^{-1}}$) are constant matrices, differentiation with respect to time or space will not affect these matrices, so can make the following substitution
+\begin{align}
+	\vec{w} & = \mat{R^{-1}} \, \vec{q}
+\end{align}
+We can now rewrite the equation as
+\begin{align} 
+	\vec{w}_{, t} + \mat{\Lambda} \, \vec{w}_{, x} & = \vec{0}
+\end{align}
+The $i^{th}$ equation in the above system reads as 
+\begin{align}
+	w_{i, t} + \lambda_{i} w_{i, x} & = 0
+\end{align}
+We can obtain the semi-discrete form of the above equation by replacing the partial derivative with respect to space with $\mat{D_{N}}$ (where $N + 1$ is the number of Chebyshev points we use) and discretizing the solution $w_{i}$
+\begin{align}
+	\vec{w_{i}}_{, t} + \lambda_{i} \mat{D_{N}} \, \vec{w_{i}} & = 0
+\end{align}
+Depending on the sign of $\lambda_{i}$, we need to modify $\mat{D_{N}}$ to include the absorbing boundary conditions i.e. if $\lambda_{i}$ is negative, we need to zero out the first column and row of $\mat{D_{N}}$ and vice versa. 
+At this point, we can discretize the above equation with respect to time and apply backward Euler, the trapezoidal rule, or the fourth order extension of the trapezoidal rule to time-step.

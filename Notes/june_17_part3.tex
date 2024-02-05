@@ -1,0 +1,10 @@
+% !TEX root = main.tex
+
+\section*{Fourth order interpolation scheme to compute Radon transform}
+Dr. Rossmanith provided us with another interpolation scheme that is based off the earlier second order interpolation scheme from last week.
+In this scheme, we make use of four points to compute the function value at a quadrature point.
+
+In order to make the forward Radon transform more computationally efficient, effort was put into vectorizing the 2 point interpolation code in $\texttt{radon\_transform\_v5.py}$ into $\texttt{radon\_transform\_v5\_vec.py}$.
+The motivation behind this vectorization was to group together all of the quadrature points used to calculate the Radon transform for a single discretization point.
+This was mostly successful, although some calculations still had to be done within a for-loop.
+Despite this, the changes made to the code made it run approximately four times as fast, and indicates that similar efforts should be put into vectorizing the other versions of the forward Radon transform.

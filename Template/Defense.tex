@@ -1,0 +1,262 @@
+\documentclass[11pt]{beamer}
+\mode<presentation>
+%\includeonlyframes{yep}
+
+
+%% Packages
+\usepackage{amsmath,amssymb,amsthm,amsfonts,graphicx,url,colordvi,bbm}
+\usepackage{graphics,graphics,latexsym,multicol,epsfig}
+\usepackage{enumerate,url}
+\usepackage{wasysym}
+ \usepackage{vwcol} 
+\usepackage{pifont}
+\usepackage{nicefrac}
+\usepackage{subcaption}
+
+\usepackage{pgfplots}
+\usetikzlibrary{intersections}
+
+
+% These are set with RGB codes, which you can for sure find online, but Macs have a cool app called Digital 
+% Color Meter which is super helpful. I tend to give generic names so that I can just change the numbers
+% when I want to change colors.
+\definecolor{dark}{RGB}{10,14,26}
+\definecolor{medium}{RGB}{200,16,46}
+\definecolor{light}{RGB}{252,95,92}
+\definecolor{accent}{RGB}{200,16,46}
+\definecolor{ivory}{RGB}{205,200,200}
+
+
+%% Theme
+% This is the style and layout. I use an outer theme that gets rid of slide numbers, which is just a style file 
+% that you need to include wherever you've compiled your slides. I've attached it to the email.
+% The navigation symbols are those things in the bottom right corner, but I don't like them so I set them to blank.
+\usetheme{Madrid}
+\setbeamertemplate{navigation symbols}{}
+\useoutertheme{noslidenum}
+\setbeamersize{text margin left=10pt,text margin right=10pt}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+
+%% Color Sets
+% this is where I custom set the colors of all my objects. Beamer is weird in that most objects have a foreground (fg) color 
+% and a background (bg) color. You can also do color mixing with exclamation points, so like the background canvas is 25% 
+% white and 75% ivory.
+\usecolortheme[named=medium]{structure}
+\setbeamertemplate{enumerate items}[square]
+\setbeamercolor{item projected}{bg=accent,fg=white}
+\setbeamertemplate{itemize items}{\textcolor{accent}{$\RHD$}}
+\setbeamertemplate{qed symbol}{\textcolor{accent}{$\darksquare$}}
+\setbeamercolor{background canvas}{bg=ivory!25!white}
+\setbeamercolor{author}{fg=dark}
+\setbeamercolor{date}{fg=dark}
+\setbeamercolor{institute}{fg=dark}
+\setbeamercolor{normal text}{fg=dark}
+\setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{title}{bg=accent}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{block title}{bg=accent}
+\setbeamercolor{block title}{fg=white}
+\setbeamercolor{block body}{bg=white}
+
+
+%% Tikz
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows,snakes}
+\usetikzlibrary{calc}
+
+%% Math Commands
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lem}[theorem]{Lemma}
+\newtheorem{claim}{Claim}
+\renewcommand{\L}{\mathcal{L}}
+
+%%More Math Commands
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\loc}{\operatorname{loc}}
+\newcommand{\PV}{\operatorname{P.V.}}
+\newcommand{\w}{\omega}
+\newcommand{\dr}{(D_{\mathrm{right}})^{\alpha}}
+\newcommand{\dl}{(D_{\mathrm{left}})^{\alpha}}
+\def\({\left(}
+\def\){\right)}
+
+\newcommand{\blue}[1]{\textcolor[RGB]{0,107,166}{#1}}
+\newcommand{\red}[1]{\textcolor[RGB]{200,16,46}{#1}}
+
+\def\lampm{{\lambda_{i\pm\frac{1}{2}}}}
+\def\lmax{{\lambda_{\max}}}
+\def\lph{{\lambda_{i+\frac{1}{2}}}}
+\def\lmh{{\lambda_{i-\frac{1}{2}}}}
+\def\steps{{\frac{\Delta t}{\Delta x}}}
+
+\def\NF{{\mathcal F}}
+\def\mcorr{{M_\text{C}}}
+\def\morder{{M_\text{O}}}
+\def\meq{{M_\text{eqn}}}
+\newcommand{\reals}{\mathbb R}
+\def\mpred{{M_\text{P}}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\bunderline}[1]{\underline{#1}}
+\renewcommand{\vec}[1]{{\bunderline{#1}}}
+\newcommand{\mat}[1]{{\bunderline{\bunderline{#1}}}}
+
+%Moment Closure definitions
+\def\mom{{\mathbb M}}
+\def\tmom{\widetilde{\mathbb M}}
+\newcommand{\inred}[1]
+        {\mbox{\color{red} #1}}
+\newcommand{\inblu}[1]
+        {\mbox{\color{blue} #1}}
+\newcommand{\ingrn}[1]
+        {\mbox{\color{green} #1}}
+\newcommand{\inmag}[1]
+        {\mbox{\color{magenta} #1}}
+\newcommand{\inwhite}[1]
+        {\mbox{\color{white} #1}}
+\newcommand{\incyan}[1]
+        {\mbox{\color{cyan} #1}}
+\newcommand{\conceptj}[2]
+        {\medbreak\noindent{\bf \footnotesize #1}\vspace*{#2}}
+
+
+\newcounter{ResumeEnumerate}%for enumerating on two slides
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber%/\inserttotalframenumber
+}%slide numbers - toggle off for presentation
+%
+%% Font
+% Fonts are complicated in Beamer, I always just end up googling it and copying/pasting
+% the code they have listed. You can certainly delete this chunk if you want to use the default.
+\usepackage[english]{babel}
+%\usefonttheme{serif}
+\usepackage[light,math]{kurier}
+\usepackage[T1]{fontenc}
+\fontsize{11}{6}
+
+\title[Master's Defense]{A Locally Implicit Lax-Wendroff DG Scheme with Limiters that Guarantee Moment-invertibility for Quadrature-based Moment Closures}
+\author[Christine Wiersma]{Christine Wiersma}
+\institute[Iowa State University]{Iowa State University \\ Department of Mathematics\\ Advisor: James Rossmanith}
+\date[April 9, 2019]{Master's Defense \\ April 9, 2019}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+
+
+%Start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{frame}
+\maketitle
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Outline}
+\tableofcontents
+%\begin{enumerate}
+%\item Motivation
+%\bigskip
+%\item Moment Closure
+%\bigskip
+%\item Numerical Scheme
+%\bigskip
+%\item Limiters
+%\bigskip
+%\item Numerical Results
+%\bigskip
+%\item Future Work
+%\end{enumerate}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Motivation}
+
+
+\begin{frame}{Multiphase Flow}
+
+%\begin{columns}
+%\begin{column}{0.5\textwidth}
+%\begin{definition}[Polydisperse Multiphase Flow]
+%Flow with two or more thermodynamic phases, where one is continuous and one is discrete with varying mass, volume, etc..
+%\end{definition}
+
+%\begin{figure}
+%\includegraphics[width=.75\textwidth]{bubbles.jpg}
+%\vskip.5em\tiny{https://www.stocksy.com/1423737/air-bubbles-in-water}
+%\end{figure}
+%\end{column}
+
+%\begin{column}{0.5\textwidth}
+%\begin{figure}
+%\includegraphics[width=.7\textwidth]{spray.jpg}
+%\vskip.5em\tiny{(Source: iStockphoto)}
+%\end{figure}
+%\begin{figure}
+%\vskip-1em
+%\includegraphics[width=.7\textwidth]{surface.jpg}
+%\vskip.5em\tiny{(Source: PaulPaladin)}
+%\end{figure}
+%\end{column}
+%\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frame{
+
+\begin{center}
+\large
+Thank you for your attention!
+
+\bigskip
+
+\includegraphics[width=.15\linewidth]{ISULogo}
+\end{center}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[allowframebreaks]
+        \frametitle{References}
+       \begin{enumerate}
+\item Cheng, Y. and Rossmanith, J. (2013). A class of quadrature-based moment-closure methods with applications to the Vlasov-Poisson-Fokker-Planck system in the high-field limit. \it{J. Comput. Applied Mathematics}.
+
+
+\end{enumerate}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\end{document}

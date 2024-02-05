@@ -1,0 +1,81 @@
+% !TEX root = main.tex
+
+% Eappen
+
+\section*{Finding convergence rates}
+Suppose the error (for example, the inf-norm between the true solution and the approximate solution at the Chebyshev points) is $O((\triangle t)^k)$.
+This means the error, defined to be $E := E(\triangle t)$ (we take the error to be a function of the time step size) is of the form
+\begin{align*}
+	E(\triangle t) = c (\triangle t)^{k}
+\end{align*}
+where $c$ is some constant.
+We expect that when we halve $\triangle t$, $E(\frac{(\triangle t)}{2})$ will be reduced by $2^{k}$ i.e.
+\begin{align*}
+	E\Big( \frac{\triangle t}{2} \Big) = c \Big( \frac{\triangle t}{2} \Big)^{k}
+\end{align*}
+Dividing $E(\triangle t)$ by $E \Big( \frac{\triangle t}{2} \Big)$, we get
+\begin{align*}
+	\frac{ E (\triangle t) }{ E \Big( \frac{\triangle t}{2} \Big) } & = 2^{k}
+\end{align*}
+Taking $\log$ base $2$ of both sides, we get
+\begin{align*}
+	\log \Bigg( \frac{ E (\triangle t) }{ E \Big( \frac{\triangle t}{2} \Big) } \Bigg) & = k
+\end{align*}
+If we have a sequence of time step sizes $\triangle t_{1}, \triangle t_{2}, \hdots, \triangle t_{m}$ and their associated errors $E_{1}, E_{2}, \hdots, E_{m}$, we can recover what the order of convergence $k$ is by repeating the above calculations with $\triangle t_{1}$ and $E_{1}$, with $\triangle t_{2}$ and $E_{2}$, and so forth.
+\par 
+There is another way to compute the convergence rate.
+We again assume that the error $E := E(\triangle t)$ is of the form
+\begin{align*}
+	E(\triangle t) & = c (\triangle t)^{k}
+\end{align*}
+Taking the natural log of both sides of the above expression, we get
+\begin{align*}
+	\log (E(\triangle t)) & = \log(c) + k \log(\triangle t)
+\end{align*}
+If we have multiple, distinct values of $\triangle t$ i.e. $\triangle t_{1}, \triangle t_{2}, \hdots, \triangle t_{m}$ and the associated errors $E_{1}, E_{2}, \hdots, E_{m}$, we can obtain a system of equations in $\log(c)$ and $k$ i.e.
+\begin{align*}
+	\begin{bmatrix}
+		1 & \log(\triangle t_{1}) \\
+		1 & \log(\triangle t_{2}) \\
+		\vdots & \vdots \\
+		1 & \log(\triangle t_{m})
+	\end{bmatrix}
+	\begin{bmatrix}
+		\log(c) \\
+		k
+	\end{bmatrix}
+	& = 
+	\begin{bmatrix}
+		\log(E_{1}) \\
+		\log(E_{2}) \\
+		\vdots \\
+		\log(E_{m})
+	\end{bmatrix}
+\end{align*}
+We denote the matrix on the left to be $\mat{A}$, the vector on the right to be $\vec{b}$, and the solution vector to be $\vec{x}$.
+\par 
+This is an over-determined linear system, so we will not be able to find an exact solution to $\mat{A} \, \vec{x} = \vec{b}$.
+We can instead solve the normal equations.
+If we multiply both sides $\mat{A} \, \vec{x} = \vec{b}$ by $\mat{A^{T}}$, we obtain the following system
+\begin{align*}
+	\mat{A^{T}} \, \mat{A} \, \vec{x} & = \mat{A^{T}} \, \vec{b}
+\end{align*}
+Since we assumed  $\triangle t_{1}, \triangle t_{2}, \hdots, \triangle t_{m}$ to be distinct, the columns of $A$ are linearly independent and $\mat{A^{T}} \, \mat{A}$ is non-singular.
+Furthermore, $\mat{A^{T}} \, \mat{A}$ is a $2 \times 2$ matrix, which we can easily invert, and we are able to find the solution $\vec{x}$ in the least squares sense.
+
+\section*{Testing the time-stepping code}
+Suppose our PDE is of the form 
+\begin{align*}
+	\mathcal{L}(q) & = f
+\end{align*}
+It is often the case that we do not know the solution to such PDE's.
+In order to test our code, we can use the \underline{method of manufactured solutions}.
+We can come up with a dummy solution, $q^{*}$ and apply $\mathcal{L}$ to $q^{*}$ to obtain a different PDE i.e.
+\begin{align*}
+	\mathcal{L}(q^{*}) & = g
+\end{align*}
+Since we know $q^{*}$ exactly, we can test our code on the above PDE and compute the error between the approximate solution and true solution.
+If it is the case that our code fails to find numerically accurate solutions even when we know the exact solution to the modified PDE, then we know our code will not find numerically accurate solutions to the original PDE. 
+\par
+This method is fairly robust for simple PDE's, but we have to be careful when our PDE gets more complicated. 
+We also have to be mindful of initial conditions and boundary conditions when coming up with our manufactured solution.

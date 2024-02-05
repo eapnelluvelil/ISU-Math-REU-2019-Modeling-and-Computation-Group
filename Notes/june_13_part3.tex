@@ -1,0 +1,8 @@
+% !TEX root = main.tex
+
+As a part of our efforts to find a suitable alternative to the evidently buggy bilinear interpolation, other interpolation schemes were investigated.
+Among them was Shepard's method, which in general constructs a global interpolant according to an inverse dsitance weighting.
+In our case, each point at which the function needed to be evaluated was placed inside a grid-cell in $s \times \omega$ space, just as in the bilinear case.
+Then, the interpolant is constructed based on the function values at those four points only. 
+With limited testing, this method appeared to work about as well as the radial basis function attempted the previous day, but at a much cheaper computational cost.
+That being said, the method had similar artifacts as well, and was quickly abandonded in place of the angular interpolation method tried next.

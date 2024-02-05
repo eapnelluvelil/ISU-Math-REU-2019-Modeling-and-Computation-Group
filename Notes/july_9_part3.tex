@@ -1,0 +1,19 @@
+% !TEX root = main.tex
+
+We started to code initial conditions for the $P_N$ equations. The following formula is from Minwoo Shin's PhD defence.
+
+\begin{align*}
+F(\vec{r}, \vec{\Omega}, 0) = \frac{1}{4\pi\alpha^2}e^{-\frac{x^2+y^2}{4\alpha^2}}
+\end{align*}
+
+With 
+
+\begin{align*}
+\alpha = 0.03, \quad
+\sigma _a = 0, \quad
+\sigma _s = 1
+\end{align*}
+
+And the final time as one second. The domain that Shin used was $[-1.5, 1.5]$, so we needed to scale this initial condition as well. We set $x = a\tilde{x}$, $y = a\tilde{y}$, $t = a\tilde{t}$, and $C = aC$ where $a = 1.5$. We coded the values $x$, $y$, $\tilde{t}$, and $C$ into our code.
+
+

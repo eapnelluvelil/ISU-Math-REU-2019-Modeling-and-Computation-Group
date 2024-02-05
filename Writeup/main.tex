@@ -1,0 +1,71 @@
+\documentclass{article}
+% to compile a camera-ready version, add the [final] option, e.g.:
+    \usepackage[final]{neurips_2019}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{mathdots}
+\usepackage[english]{babel}
+\usepackage[justification=centering]{caption}
+\usepackage{placeins}
+
+\usepackage{times}
+\usepackage{array}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{natbib}
+
+\newcommand{\bunderline}[1]{\underline{#1}}
+\renewcommand{\vec}[1]{{\bunderline{#1}}}
+\newcommand{\vect}[1]{{\bunderline{#1}}} 
+\newcommand{\mat}[1]{{\bunderline{\bunderline{#1}}}}
+
+\title{Solving the Radiative Transfer Equations via the Radon Transform}
+
+\author{%
+  Eappen Nelluvelil \\
+  Rice University \\
+  \texttt{esn2@rice.edu} \\
+  \And
+  Megan Oeltjenbruns \\
+  Wayne State College \\
+  \texttt{meoelt01@wsc.edu} \\
+  \And
+  Jacob Spainhour \\
+  Florida State University \\
+  \texttt{jcs15c@my.fsu.edu} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+We aim to efficiently solve multi-dimensional partial differential equations using the Radon transform. By applying the Radon transform to such a 2D PDE, we reduce the problem to a collection of 1D PDEs that can be time-stepped up to a desired final time. Following this, the inverse of the Radon transform is applied to return the new solution to physical space. We specifically apply this method to the $P_N$ approximation for radiative transfer, a hyperbolic system of linear PDEs.
+
+\end{abstract}
+
+\input{introduction.tex}
+\input{radon_transform_and_backprojection.tex}
+\input{linear_hyperbolic_pdes.tex}
+\input{results.tex}
+\input{summary.tex}
+\input{future_work.tex}
+\input{acknowledgments.tex}
+
+\bibliographystyle{te}
+
+\bibliography{bib}
+
+\end{document}

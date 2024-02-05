@@ -1,0 +1,13 @@
+% !TEX root = main.tex
+
+A significant portion of these days were spent making the Radon Transform software more efficient and fast.
+This was primarily performed through Numpy vectorization.
+Initially, the quadrature used to calculate the Radon Transform for a particular discretization point was vectorized, referred to as "vectorized in $q$".
+This resulted in approximately a 10x speedup.
+Next, the code was fully vectorized, being vectorized in $s$, $\omega$, and $q$.
+For trivially coarse domains, this made the code significantly faster. 
+However, for any reasonably sized domain, this vectorization caused the overall calculation to take either more time, or not compute at all due to memory constraints.
+The unexpected slow-down in runtime is likely the result of cache issues, but the exact causes were not investigated fully.
+To alleviate these issues, we attempted to vectorize the code only in $\omega$ and $q$, having the effect of computing the radon transform for entire diameters of the domain at once.
+While this did not have the same memory issues as the original method, it remained only mildly more efficient at best, and slower at worst.
+As a result, the version of the software vectorized in $q$ has become the de-facto radon transform to be used in future work.

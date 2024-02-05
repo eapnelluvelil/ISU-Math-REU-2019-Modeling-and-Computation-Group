@@ -1,0 +1,14 @@
+% !TEX root = main.tex
+
+Today we attempted to complete the code in the module $\texttt{radon\_transform\_v2.py}$.
+Similar to version 1, this module contains a functino $\texttt{clen\_curt}$ that returns the appropriate nodes and weights for Clenshaw-Curtis approximation, the source for which is identical.
+
+The module also incldes a $\texttt{radon}$ function which has an identical declaration and return type as the 1st version, but has a different definition.
+This function uses interpolation to evaluate the function to be transformed at only the discretization points provided.
+As of yet, the code uses bilinear interpolation, but does so in the $s \times \omega$ plane as opposed to the typical $x \times y$ plane, where the discretization points are placed in a grid, albeit a non-uniform one.
+Each point required for the quadrature in the radon transformation is approximated by its four nearest neighbors in this $d \times \omega$ plane.
+Locating these four points is done using the $\texttt{numpy}$ function $\texttt{digitize}$, which categorizes values into the appropriate interval.
+TO remove any issues of points located on the boundary, each point is peturbed inwardly to ensure each is located in the interior of such a rectangle.
+
+Currently, this code returns artifacts when tested on a gaussian function. 
+It is suspected that this can be avoided if the number of chebyshev points used in quadrature is less than the number of chebyshev points used for the discretization, but this is currently under investigation.

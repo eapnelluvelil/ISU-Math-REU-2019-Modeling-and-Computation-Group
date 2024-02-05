@@ -1,0 +1,34 @@
+% !TEX root = main.tex
+
+In our code, named $\texttt{pn\_approx.py}$, we set functions for A, B, C, D, E, F that can be found in the Brunner Holloway paper on two-dimensional time dependent Riemann solvers for neutron transport in equations (4), (5), and (6). Then, we defined a python function, $\texttt{pn\_matrices}$, to loop through different values of $\ell$ and $m$ to create our matrices. In order for this to work correctly, we needed to have if statements for each type of value. This could be improved upon at a later time, but for now, it allows our code to run without causing issues with our $\ell$ and $m$ values to be less than $0$ or greater than $N$. We also imported the sys library of python in order to run different $N$ values from our terminal instead of having to change our code each time we tested a different $N$ value. \\
+
+Note: $N$ is always a positive, odd integer. \\
+
+We needed to only deal with one variable at a time instead of dealing with $m$ and $\ell$ at the same time. The following equation outlines a way that we were able to do that:
+
+\begin{align*}
+p = &\frac{\ell(\ell + 1)}{2} + 1 + m \\
+\ell = &0, 1, 2, \dots, N \\
+m = &0, 1, 2, \dots, \ell \\
+1\leq p \leq &\frac{N(N + 1)}{2} + 1 + N \\
+1\leq p \leq &\frac{N^2}{2} + \frac{3N}{2} +1
+\end{align*}
+
+The following are the two cases for our equations:
+
+\begin{align*}
+\text{For } m \neq 0 \text{:} \\
+\psi_{p,t} + \frac{1}{2} \frac{\partial}{\partial x} [-C_{\ell - 1}^{m-1} \psi_{p-\ell-1} + D_{\ell + 1}^{m-1} \psi_{p + \ell} + E_{\ell - 1}^{m + 1} \psi_{p- \ell +1} - F_{\ell + 1}^{m+1} \psi_{p + \ell + 2} ] \\ + \frac{\partial}{\partial z} [A_{\ell - 1}^{m} \psi_{p-\ell} + B_{\ell + 1}^{m} \psi_{p+\ell+1}] + \sum_t \psi_p = 0 \\ \\
+\text{For } m = 0 \text{:} \\
+\psi_p + \frac{\partial}{\partial x}[E_{\ell - 1}^1 \psi_{p-\ell +1} + F_{\ell + 1}^1 \psi_{p+\ell+2}] + \frac{\partial}{\partial z}[A_{\ell - 1}^0 \psi_{p-\ell} + B_{\ell+1}^0 \psi_{p+\ell+1}] + \sum_t \psi_p = \sum_s \psi_1 \delta_{\ell 0}
+\end{align*}
+
+The goal is to have the average approach the $\psi_0^0$ value. When our $p = 1$, our average value is $\psi_0^0$. 
+
+\begin{align*}
+\psi_{p,t} = -\sum_t \psi_p \\
+\psi_{1,t} = -\sum_t \psi_1 + \sum_s \psi_1
+\end{align*}
+
+Going forward, we need to make a $\widetilde{\mat{A}} (\omega) = \cos(\omega) \mat{A_x} + \sin(\omega) \mat{A_z}$. We then send $\widetilde{\mat{A}}$ to the code that we have to solve matrices of this form and repeat for multiple values of $\omega$. Then, we need to address the fact that we don't have a uniform mesh because we are using Chebyshev points, so methods like the discrete Radon transform (DRT) won't work the same. \\
+The easier part of the Radon transform will be doing the forward Radon transform, since it is just integration. However, the inverse Radon transform will be where we will struggle. 

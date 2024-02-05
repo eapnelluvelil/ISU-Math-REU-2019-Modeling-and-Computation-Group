@@ -1,0 +1,4 @@
+% !TEX root = main.tex
+
+When we were trying to create our pre-conditioner matrix using a radially symmetric function so that we wouldn't have $\omega$ dependence, we ran into singular matrix issues. When we printed out the matrix to try to figure out why, we noticed that the four quadrants of the matrix were mirrors of each other. \\
+Our attempt to fix this was to cut out the upper right and the lower left quadrants to make all of the rows of the matrix unique. This was tricky to code, as we were looping through all Ns points, but we needed the second half of Ns points to look at the first half to find their values. Once we had this coded, we tested it as a pre-conditioner, and it made our condition number slightly better, but ultimately this matrix was not the pre-conditioner that we were hoping for. 

@@ -1,0 +1,13 @@
+% !TEX root = main.tex
+
+\section*{Mitigating the singularity of the $\mat{R}$ matrix}
+As before, we are trying to solve the system
+\begin{align*}
+	\mat{R} \, \vec{f} & = \vec{\hat{f}}
+\end{align*}
+In the context of the project, $\vec{\hat{f}}$ is the time-evolved solution of a hyperbolic PDE.
+Because $\mat{R}$ is practically singular and our recent attempts at finding the corresponding time-evolved solution in physical space have failed, we believe that the time-evolved solution Radon transform space does not lie in the range space of $\mat{R}$.
+We can alleviate this issue by appending additional columns to $\mat{R}$.
+This corresponds to increasing the resolution of the underlying mesh in the $\omega$-direction (i.e. sampling at additional angles) while maintaining the resolution in the $s$-direction. 
+In theory, this should work, but we are not yet sure of how many additional angles we need to sample.
+To begin with, if we are sampling at $N_{\omega}$ angles and at $N_{s}$ radii at each angle, we can simply double the number of angles to sample at (i.e. $2 N_{\omega}$).

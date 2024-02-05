@@ -1,0 +1,46 @@
+\begin{thebibliography}{6}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+\providecommand{\bibAnnote}[2]{%
+  \begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ #2\end{quotation}}
+
+\bibitem[{Brunner and Holloway(2005)}]{BrunnerHolloway:1}
+Brunner, T. and J.~Holloway (2005), \enquote{Two-dimensional time dependent
+  riemann solvers for neutron transport.} \emph{Journal of Computational
+  Physics}, 210, 386--399.
+\bibAnnoteFile{BrunnerHolloway:1}
+
+\bibitem[{Pieraccini and Puppo(2007)}]{PieracciniPuppo:3}
+Pieraccini, S. and G.~Puppo (2007), \enquote{Implicit-explicit schemes for bgk
+  kinetic equations.} \emph{Journal of Scientific Computing}, 32.
+\bibAnnoteFile{PieracciniPuppo:3}
+
+\bibitem[{Press(2006)}]{Press:4}
+Press, W. (2006), \enquote{Discrete radon transform has an exact, fast inverse
+  and generalizes to operations other than sums along lines.} \emph{PNAS}, 103,
+  19249--19254.
+\bibAnnoteFile{Press:4}
+
+\bibitem[{Rim(2018)}]{Rim:5}
+Rim, D. (2018), \enquote{Dimensional splitting of hyperbolic partial
+  differential equations using the radon transform.} \emph{SIAM Journal of
+  Scientific Computing}, 40, A4184--A4207.
+\bibAnnoteFile{Rim:5}
+
+\bibitem[{Shin(2019)}]{Shin:6}
+Shin, M. (2019), \enquote{Hybrid discrete ($h^t_n$) approximations to the
+  equation of radiative transfer.} Ph.d. thesis, Iowa State Univeristy.
+\bibAnnoteFile{Shin:6}
+
+\bibitem[{Trefethen(2000)}]{Trefethen:7}
+Trefethen, L. (2000), \emph{Spectral Methods in MATLAB}. Society for Industrial
+  and Applied Mathematics.
+\bibAnnoteFile{Trefethen:7}
+
+\end{thebibliography}

@@ -1,0 +1,7 @@
+% !TEX root = main.tex
+
+% June 13, Part 1
+
+ We knew from yesterday that our code, in file $\texttt{radon\_transform\_v2.py}$ was having some errors. We were able to reduce the errors by increasing the number of s points in our grid. However we still weren't getting our error to reduce as much as we would like. \\ \\
+ Before we could try different methods to change our error, we had to make sure that we were finding a correct solution, so we compared our solution to the exact solution and to the solution that we had in $\texttt{radon\_transform\_v1.py}$ We were able to determine that the solution found in $\texttt{radon\_transform\_v1.py}$ was correct with minimal error. \\ \\
+ Then, we ended up trying to change the area on which we were doing the bilinear interpolation, however we were still unable to get our error to an acceptable amount. At this point, we were also trying to see if a radiative basis function with $\phi = 1$ would work better. It seemed to have less error, but the error started to increase with more s points. We are unsure if the radiative basis function will work out for us in the long run with this odd error behaviour.
